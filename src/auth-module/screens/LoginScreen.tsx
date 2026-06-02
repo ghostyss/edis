@@ -1,36 +1,22 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
-// Usamos lo mejor y oficial de Expo para criptografía nativa
-import * as Crypto from 'expo-crypto';
+import CryptoJS from 'crypto-js';
 
-const API_URL = 'https://tu-servidor.com/api/login.php';
-// Clave secreta de 32 caracteres (Debe ser la misma en PHP)
-const SECRET_KEY = '12345678901234561234567890123456'; 
+const API_URL = 'https://e-disciple.com/endp.php';
+const SECRET_KEY = 'Diga8611#$'; 
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  // Función para encriptar la contraseña usando las herramientas de Expo
-  const encryptData = async (text: string) => {
-    // Generamos un vector de inicialización (IV) aleatorio para máxima seguridad
-    const iv = Crypto.getRandomBytes(12);
-    const ivHex = Array.from(iv).map(b => b.toString(16).padStart(2, '0')).join('');
-
-    // Encriptamos la contraseña de forma nativa en el dispositivo
-    const encrypted = await Crypto.encryptAES_GCMAsync(text, SECRET_KEY, ivHex, '');
-    
-    return {
-      ciphertext: encrypted,
-      iv: ivHex
-    };
+  const encryptData = (text: string): string => {
+    return CryptoJS.AES.encrypt(text, SECRET_KEY).toString();
   };
 
   const handleLogin = async () => {
     if (!email || !password) {
-      setError('Campos requeridos');
+      setError('Por favor, llena todos los campos.');
       return;
     }
 
@@ -38,17 +24,16 @@ export default function LoginScreen() {
     setError('');
 
     try {
-      // Encriptamos la contraseña antes de enviarla
-      const encryptedResult = await encryptData(password);
+      // 1. Encriptar la contraseña de forma segura
+      const encryptedPassword = encryptData(password);
 
-      // Enviamos un JSON tradicional mediante POST
+      // 2. Enviar el JSON tradicional por POST
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(),
-          password: encryptedResult.ciphertext, // Texto encriptado
-          iv: encryptedResult.iv               // El IV necesario para desencriptar
+          password: encryptedPassword, // Viaja el bloque seguro encriptado
         }),
       });
 
@@ -56,7 +41,6 @@ export default function LoginScreen() {
 
       if (json.success === true) {
         alert('¡Inicio de sesión correcto!');
-        // Aquí guardas tu token de sesión corporativo
       } else {
         setError(json.message || 'Credenciales incorrectas');
       }
@@ -82,6 +66,7 @@ export default function LoginScreen() {
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
+          keyboardType="email-address"
         />
         <TextInput
           style={styles.input}
