@@ -24,16 +24,13 @@ export default function LoginScreen() {
     setError('');
 
     try {
-      // 1. Encriptar la contraseña de forma segura
       const encryptedPassword = encryptData(password);
-
-      // 2. Enviar el JSON tradicional por POST
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(),
-          password: encryptedPassword, // Viaja el bloque seguro encriptado
+          password: encryptedPassword,
         }),
       });
 
