@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import CryptoJS from 'crypto-js';
+import { useTranslation } from 'react-i18next';
 
 const API_URL = 'https://e-disciple.com/endp.php';
 const SECRET_KEY = 'Diga8611#$'; 

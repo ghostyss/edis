@@ -5,11 +5,12 @@ import { initReactI18next } from 'react-i18next';
 i18n
   .use(initReactI18next)
   .init({
-    compatibilityJSON: 'v3',
-    resources: {},
-    lng: 'en',
-    fallbackLng: 'en',
-    interpolation: { escapeValue: false },
-  });
+    lng: 'db_idioma', // Nombre clave para tu idioma dinámico
+    fallbackLng: 'db_idioma',
+    resources: {},    // Empieza vacío, se llena en caliente con lo que mande tu PHP
+    interpolation: {
+      escapeValue: false,
+    },
+  } as any); // El 'as any' le quita la rigidez a TypeScript para evitar errores de sobrecarga molestos
 
 export default i18n;
