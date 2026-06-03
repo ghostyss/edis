@@ -29,15 +29,16 @@ export default function LoginScreen() {
         body: JSON.stringify({
           email: email.trim(),
           password: encryptedPassword,
+          action: 'login'
         }),
       });
 
       const json = await response.json();
 
-      if (json.success === true) {
+      if (json.Code === 200) {
         alert('¡Inicio de sesión correcto!');
       } else {
-        setError(json.message || 'Credenciales incorrectas');
+        setError(json.Msj || 'Credenciales incorrectas');
       }
 
     } catch (err) {
