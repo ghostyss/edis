@@ -19,10 +19,8 @@ export default function LoginScreen() {
       setError('Por favor, llena todos los campos.');
       return;
     }
-
     setLoading(true);
     setError('');
-
     try {
       const encryptedPassword = encryptData(password);
       const response = await fetch(API_URL, {
