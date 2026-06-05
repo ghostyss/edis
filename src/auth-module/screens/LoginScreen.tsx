@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
 import CryptoJS from 'crypto-js';
 import { useTranslation } from 'react-i18next';
 import i18n from '../locale/i18n';
 
 const API_URL = 'https://e-disciple.com/endp.php';
 const SECRET_KEY = 'Diga8611#$'; 
+interface LanguageItem {
+  id: number;
+  nombre: string;
+}
 
 export default function LoginScreen() {
   const { t } = useTranslation();
@@ -13,6 +17,10 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [idiomaListo, setIdiomaListo] = useState(false);
+  const [listaIdiomas, setListaIdiomas] = useState<LanguageItem[]>([]);
+  const [idiomaActivoId, setIdiomaActivoId] = useState<number>(1);
+
   const encryptData = (text: string): string => {
     return CryptoJS.AES.encrypt(text, SECRET_KEY).toString();
   };
@@ -27,14 +35,23 @@ export default function LoginScreen() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idl: idIdiomaDeTuDB, action: 'language' }),
       });
-      const jsonTraducciones = await response.json(); 
+      const jsonTraducciones = await response.json();
       if(jsonTraducciones.Code === 200) {
-        const diccionarioLimpio = jsonTraducciones.Data;
-        i18n.addResourceBundle('db_idioma', 'translation', diccionarioLimpio, true, true);
+        i18n.addResourceBundle('db_idioma', 'translation', jsonTraducciones.Data, true, true);
         await i18n.changeLanguage('db_idioma');
+        if (jsonTraducciones.lang) {
+          const arrayConvertido = Object.entries(jsonTraducciones.lang).map(([id, nombre]) => ({
+            id: Number(id),
+            nombre: String(nombre)
+          }));
+          setListaIdiomas(arrayConvertido);
+        }
+        setIdiomaActivoId(idIdiomaDeTuDB);
+        setIdiomaListo(true);
       }     
     } catch (err) {
       console.error("Error al cargar las etiquetas de la DB", err);
+      setIdiomaListo(true);
     }
   };
   
@@ -72,9 +89,26 @@ export default function LoginScreen() {
       setLoading(false);
     }
   };
-
+  if (!idiomaListo) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Image 
+          source={{ uri: 'https://e-disciple.com/imgapp.jpg' }} 
+          style={styles.loadingImage}
+          resizeMode="contain"
+        />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
+      <View style={styles.LogoLogin}>
+        <Image 
+          source={{ uri: t('LogoLan') }} 
+          style={styles.loadingImage}
+          resizeMode="contain"
+        />
+      </View>
       <View style={styles.card}>
         <Text style={styles.title}>{t('MSJ-103') || 'Cargando...'}</Text>
         
@@ -82,7 +116,7 @@ export default function LoginScreen() {
 
         <TextInput
           style={styles.input}
-          placeholder="Correo Electrónico"
+          placeholder={t('MNU-21') || 'Email...'}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -90,7 +124,7 @@ export default function LoginScreen() {
         />
         <TextInput
           style={styles.input}
-          placeholder="Contraseña"
+          placeholder={t('MNU-29') || 'Password...'}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -98,19 +132,51 @@ export default function LoginScreen() {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
-          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Ingresar</Text>}
+          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{t('MSJ-103') || 'Login...'}</Text>}
         </TouchableOpacity>
+      </View>
+      <View style={styles.langContainer}>
+        {listaIdiomas.map((item) => (
+          <TouchableOpacity 
+            key={item.id} 
+            style={[
+              styles.langLink, 
+              idiomaActivoId === item.id && styles.langLinkActive
+            ]} 
+            onPress={() => { 
+              setIdiomaListo(false);
+              cambiarIdiomaDesdeBackend(item.id); 
+            }}
+          >
+            <Text style={[
+              styles.langText, 
+              idiomaActivoId === item.id && styles.langTextActive
+            ]}>
+              {item.nombre}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  LogoLogin: { width: '90%', height: 150, marginBottom: 14, justifyContent: 'center', alignItems: 'center', maxWidth: 400 },
+  loadingContainer: { flex: 1, backgroundColor: '#f4f4f6', justifyContent: 'center', alignItems: 'center', width: '100%' },
+  loadingImage: { width: '100%', height: '100%', objectFit: 'cover' },
+
   container: { flex: 1, backgroundColor: '#f4f4f6', justifyContent: 'center', alignItems: 'center' },
   card: { backgroundColor: '#fff', width: '90%', maxWidth: 400, padding: 24, borderRadius: 8 },
   title: { fontSize: 18, fontWeight: 'bold', marginBottom: 16, textAlign: 'center' },
   input: { backgroundColor: '#f9fafb', borderWidth: 1, borderColor: '#e5e7eb', padding: 12, borderRadius: 6, marginBottom: 12 },
-  button: { backgroundColor: '#10b981', padding: 14, borderRadius: 6, alignItems: 'center' },
+  button: { backgroundColor: '#395563', padding: 14, borderRadius: 6, alignItems: 'center' },
   buttonText: { color: '#fff', fontWeight: 'bold' },
-  errorText: { color: 'red', marginBottom: 12, textAlign: 'center' }
+  errorText: { color: 'red', marginBottom: 12, textAlign: 'center' },
+
+  langContainer: { flexDirection: 'row', marginBottom: 20, flexWrap: 'wrap', justifyContent: 'center', marginTop: 16, maxWidth: 450, width: '90%' },
+  langLink: { paddingVertical: 6, paddingHorizontal: 12, marginHorizontal: 4, borderRadius: 4, backgroundColor: '#e5e7eb', minWidth: '20%', marginBottom: 8, alignItems: 'center' },
+  langLinkActive: { backgroundColor: '#10b981' }, // Color verde si está activo
+  langText: { fontSize: 14, color: '#374151' },
+  langTextActive: { color: '#fff', fontWeight: 'bold' }
 });
