@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, ActivityInd
 import CryptoJS from 'crypto-js';
 import { useTranslation } from 'react-i18next';
 import i18n from '../locale/i18n';
+import { Feather } from '@expo/vector-icons';
 
 const API_URL = 'https://e-disciple.com/endp.php';
 const SECRET_KEY = 'Diga8611#$'; 
@@ -20,6 +21,7 @@ export default function LoginScreen() {
   const [idiomaListo, setIdiomaListo] = useState(false);
   const [listaIdiomas, setListaIdiomas] = useState<LanguageItem[]>([]);
   const [idiomaActivoId, setIdiomaActivoId] = useState<number>(1);
+  const [ocultarPassword, setOcultarPassword] = useState(true);
 
   const encryptData = (text: string): string => {
     return CryptoJS.AES.encrypt(text, SECRET_KEY).toString();
@@ -39,6 +41,7 @@ export default function LoginScreen() {
       if(jsonTraducciones.Code === 200) {
         i18n.addResourceBundle('db_idioma', 'translation', jsonTraducciones.Data, true, true);
         await i18n.changeLanguage('db_idioma');
+        console.log(jsonTraducciones.Data.LogoLan);
         if (jsonTraducciones.lang) {
           const arrayConvertido = Object.entries(jsonTraducciones.lang).map(([id, nombre]) => ({
             id: Number(id),
@@ -122,14 +125,27 @@ export default function LoginScreen() {
           autoCapitalize="none"
           keyboardType="email-address"
         />
-        <TextInput
-          style={styles.input}
-          placeholder={t('MNU-29') || 'Password...'}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          autoCapitalize="none"
-        />
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder={t('MNU-29') || 'Password...'}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={ocultarPassword}
+            autoCapitalize="none"
+          />
+          <TouchableOpacity 
+            style={styles.viewPassButton} 
+            onPress={() => setOcultarPassword(!ocultarPassword)}
+          >
+            {/* CAMBIO: Quitamos el texto y ponemos el icono dinámico */}
+            <Feather 
+              name={ocultarPassword ? "eye" : "eye-off"} 
+              size={20} 
+              color="#9ca3af" // Un color gris neutro que combina con el borde del input
+            />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
           {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{t('MSJ-103') || 'Login...'}</Text>}
@@ -178,5 +194,35 @@ const styles = StyleSheet.create({
   langLink: { paddingVertical: 6, paddingHorizontal: 12, marginHorizontal: 4, borderRadius: 4, backgroundColor: '#e5e7eb', minWidth: '20%', marginBottom: 8, alignItems: 'center' },
   langLinkActive: { backgroundColor: '#10b981' }, // Color verde si está activo
   langText: { fontSize: 14, color: '#374151' },
-  langTextActive: { color: '#fff', fontWeight: 'bold' }
+  langTextActive: { color: '#fff', fontWeight: 'bold' },
+  
+  // NUEVOS ESTALOS PARA EL CAMPO DE CONTRASEÑA COMPUESTO
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f9fafb',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 6,
+    marginBottom: 12,
+    position: 'relative'
+  },
+  passwordInput: {
+    flex: 1,
+    padding: 12,
+    paddingRight: 45 // Deja espacio para que el texto escrito no se monte sobre el botón "Ver"
+  },
+  viewPassButton: {
+    position: 'absolute',
+    right: 12,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  viewPassText: {
+    color: '#10b981', // Mantenemos tu color verde temático
+    fontWeight: 'bold',
+    fontSize: 13
+  },
+
 });
