@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@expo-google-fonts/*": ["node_modules/@expo-google-fonts/*"]
+    }
+  },
+  "include": ["src/auth-module/screens/LoginScreen.tsx"]
+}
