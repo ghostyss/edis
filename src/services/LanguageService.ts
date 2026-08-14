@@ -1,4 +1,4 @@
-import { API } from "../config/api";
+import { ApiClient } from "../services/ApiClient";
 
 export interface LanguageItem {
   id: number;
@@ -14,16 +14,13 @@ export interface LanguageResponse {
 }
 
 async function load(idLang: number): Promise<LanguageResponse> {
-  const response = await fetch(`${API.BASE_URL}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      idl: idLang,
-      action: "language",
-    }),
-  });
+  const json = await ApiClient.post({
+    action: "language",
 
-  const json = await response.json();
+    data: {
+      idl: idLang,
+    },
+  });
   if (json.Code !== 200) {
     throw new Error("The language could not be loaded.");
   }

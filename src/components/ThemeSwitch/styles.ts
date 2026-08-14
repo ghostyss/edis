@@ -1,29 +1,22 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { ThemeColors, ThemeSpacing } from '../../theme/types';
+import { ThemeColors, ThemeSpacing } from "../../theme/types";
 
-export const createStyles = (
-    colors: ThemeColors,
-    spacing: ThemeSpacing,
-) =>
-    StyleSheet.create({
+export const createStyles = (colors: ThemeColors, spacing: ThemeSpacing) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: spacing.md,
+      position: "absolute",
+      top: 0,
+      right: 10,
+      zIndex: 1,
+      elevation: 5,
+    },
 
-        container: {
-
-            flexDirection: 'row',
-
-            alignItems: 'center',
-
-            justifyContent: 'space-between',
-
-            paddingVertical: spacing.md,
-
-        },
-
-        label: {
-
-            color: colors.text,
-
-        },
-
-    });
+    label: {
+      color: colors.text,
+    },
+  });

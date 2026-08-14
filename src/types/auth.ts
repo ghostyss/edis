@@ -8,6 +8,14 @@ export interface UserSession {
   name: string;
 
   idLang: string;
+
+  isAdmin: boolean;
+
+  AdminId: number;
+
+  ChurchName: string;
+
+  AdminType: string;
 }
 export interface LoginResponse {
   code: number;

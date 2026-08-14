@@ -16,7 +16,7 @@ async function saveActiveLanguage(idLang: number): Promise<void> {
 
 async function getActiveLanguage(): Promise<number | null> {
   const value = await AsyncStorage.getItem(ACTIVE_LANGUAGE_KEY);
-
+  //console.log(value);
   if (!value) {
     return null;
   }

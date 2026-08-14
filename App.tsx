@@ -41,15 +41,15 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <LanguageProvider>
-          <NetworkProvider>
+        <NetworkProvider>
+          <LanguageProvider>
             <SafeAreaProvider>
               <SafeAreaView style={styles.container}>
                 <AppContent />
               </SafeAreaView>
             </SafeAreaProvider>
-          </NetworkProvider>
-        </LanguageProvider>
+          </LanguageProvider>
+        </NetworkProvider>
       </AuthProvider>
     </ThemeProvider>
   );

@@ -122,12 +122,17 @@ export const createGlobalStyles = (theme: AppTheme) =>
     },
     /*------Others------ */
     LogoLogin: {
-      width: "90%",
+      width: "100%",
       height: 150,
       marginBottom: 14,
       justifyContent: "center",
       alignItems: "center",
       maxWidth: 400,
+    },
+    logoImage: {
+      width: "90%",
+      height: "100%",
+      //objectFit: "cover",
     },
     TextError: {
       color: theme.colors.textError,
@@ -161,11 +166,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
       fontFamily: theme.typography.inputLabel.fontFamily,
       fontSize: theme.typography.inputLabel.fontSize,
     },
-    logoImage: {
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-    },
+
     viewPassButton: {
       position: "absolute",
       right: 12,
@@ -173,4 +174,105 @@ export const createGlobalStyles = (theme: AppTheme) =>
       justifyContent: "center",
       alignItems: "center",
     },
+    /* ---------- Header ---------- */
+
+    header: {
+      paddingHorizontal: theme.spacing.md,
+      paddingTop: theme.spacing.md,
+      paddingBottom: theme.spacing.md,
+      backgroundColor: theme.colors.background,
+    },
+
+    headerRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+
+    headerActions: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+
+    headerLogo: {
+      ...theme.typography.title,
+      color: theme.colors.primary,
+    },
+    headerLogoImg: {
+      width: 150,
+      height: "100%",
+    },
+
+    headerTitle: {
+      ...theme.typography.title,
+      color: theme.colors.text,
+      marginTop: theme.spacing.md,
+    },
+
+    headerSubtitle: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      opacity: 0.75,
+      marginTop: theme.spacing.xs,
+    },
+    /* ---------- Icons ---------- */
+
+    iconButton: {
+      width: 42,
+      height: 42,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
+    iconButtonSpacing: {
+      marginLeft: theme.spacing.sm,
+    },
+    /* ---------- Badges ---------- */
+
+    badge: {
+      position: "absolute",
+      right: 2,
+      top: 2,
+
+      minWidth: 18,
+      height: 18,
+
+      borderRadius: theme.radius.pill,
+
+      backgroundColor: theme.colors.highlight,
+
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
+    badgeText: {
+      fontSize: 10,
+      fontWeight: "700",
+      color: theme.colors.text,
+    },
+    /* header menu */
+    headerMenuOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.35)",
+      alignItems: "flex-start",
+    },
+    headerMenu: {
+      marginTop: 60,
+      marginLeft: theme.spacing.sm,
+      minWidth: 240,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.md,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      ...theme.shadows.card,
+      paddingVertical: theme.spacing.xs,
+    },
+    headerMenuItem: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingVertical: theme.spacing.md,
+      paddingHorizontal: theme.spacing.md,
+    },
+    headerMenuItemIcon: { marginRight: theme.spacing.md },
+    headerMenuItemText: { ...theme.typography.body, color: theme.colors.text },
   });

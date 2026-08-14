@@ -10,20 +10,13 @@ import {
 } from "react-native";
 import CryptoJS from "crypto-js";
 import { useTranslation } from "react-i18next";
-import i18n from "../locale/i18n";
 import { Feather } from "@expo/vector-icons";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch";
 import { useAppTheme } from "../../hooks/useAppTheme";
-import Loading from "../../components/Loading/Loading";
 import { AuthService } from "../../services/AuthService";
 import { useAuthContext } from "../../context/AuthContext";
-
-const API_URL = "https://e-disciple.com/endp.php";
-const SECRET_KEY = "Diga8611#$";
-interface LanguageItem {
-  id: number;
-  nombre: string;
-}
+import { useLanguageContext } from "../../context/LanguageContext";
+import { API } from "../../config/api";
 
 export default function LoginScreen() {
   const { t } = useTranslation();
@@ -31,57 +24,18 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [idiomaListo, setIdiomaListo] = useState(false);
-  const [listaIdiomas, setListaIdiomas] = useState<LanguageItem[]>([]);
-  const [idiomaActivoId, setIdiomaActivoId] = useState<number>(1);
   const [ocultarPassword, setOcultarPassword] = useState(true);
   const { styles: appStyles } = useAppTheme();
   const { login } = useAuthContext();
   const encryptData = (text: string): string => {
-    return CryptoJS.AES.encrypt(text, SECRET_KEY).toString();
-  };
-  useEffect(() => {
-    cambiarIdiomaDesdeBackend(1);
-  }, []);
-
-  const cambiarIdiomaDesdeBackend = async (idIdiomaDeTuDB: number) => {
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idl: idIdiomaDeTuDB, action: "language" }),
-      });
-      const jsonTraducciones = await response.json();
-      if (jsonTraducciones.Code === 200) {
-        i18n.addResourceBundle(
-          "db_idioma",
-          "translation",
-          jsonTraducciones.Data,
-          true,
-          true,
-        );
-        await i18n.changeLanguage("db_idioma");
-        if (jsonTraducciones.lang) {
-          const arrayConvertido = Object.entries(jsonTraducciones.lang).map(
-            ([id, nombre]) => ({
-              id: Number(id),
-              nombre: String(nombre),
-            }),
-          );
-          setListaIdiomas(arrayConvertido);
-        }
-        setIdiomaActivoId(idIdiomaDeTuDB);
-        setIdiomaListo(true);
-      }
-    } catch (err) {
-      console.error("Error al cargar las etiquetas de la DB", err);
-      setIdiomaListo(true);
-    }
+    return CryptoJS.AES.encrypt(text, `${API.KEY}`).toString();
   };
 
+  const { isLoading, languages, currentLanguage, loadLanguage } =
+    useLanguageContext();
   const handleLogin = async () => {
     if (!email || !password) {
-      setError("Por favor, llena todos los campos.");
+      setError(t("MNU-22") + " or " + t("MNU-30") || "Please Fill al fields");
       return;
     }
     setLoading(true);
@@ -93,18 +47,16 @@ export default function LoginScreen() {
       if (response.code === 200) {
         await login(response.session!);
       } else {
-        setError(response.msj || "Credenciales incorrectas");
+        setError(response.msj || "Incorrect credentials");
       }
     } catch (err) {
-      setError("Error de conexión con el servidor");
+      setError("Server connection error");
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
-  if (!idiomaListo) {
-    return <Loading />;
-  }
+
   return (
     <View style={appStyles.containerApp}>
       <ThemeSwitch />
@@ -163,25 +115,24 @@ export default function LoginScreen() {
         </TouchableOpacity>
       </View>
       <View style={appStyles.containerLang}>
-        {listaIdiomas.map((item) => (
+        {languages.map((item) => (
           <TouchableOpacity
             key={item.id}
             style={[
               appStyles.buttonLang,
-              idiomaActivoId === item.id && appStyles.buttonLangActive,
+              currentLanguage === item.id && appStyles.buttonLangActive,
             ]}
             onPress={() => {
-              setIdiomaListo(false);
-              cambiarIdiomaDesdeBackend(item.id);
+              loadLanguage(item.id);
             }}
           >
             <Text
               style={[
                 appStyles.TextLang,
-                idiomaActivoId === item.id && appStyles.TextLang,
+                currentLanguage === item.id && appStyles.TextLang,
               ]}
             >
-              {item.nombre}
+              {item.name}
             </Text>
           </TouchableOpacity>
         ))}

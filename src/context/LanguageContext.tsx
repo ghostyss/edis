@@ -46,7 +46,7 @@ export function LanguageProvider({ children }: Props) {
 
     try {
       const result = await LanguageRepository.load(idLang, isOnline);
-
+      //console.log(result);
       i18n.addResourceBundle(
         "db_idioma",
         "translation",

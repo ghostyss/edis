@@ -1,5 +1,6 @@
 import { LoginResponse } from "../types/auth";
 import { API } from "../config/api";
+import { SessionStorage } from "./SessionStorage";
 
 async function login(email: string, password: string): Promise<LoginResponse> {
   try {
@@ -29,6 +30,10 @@ async function login(email: string, password: string): Promise<LoginResponse> {
         name: json.Name,
         email: json.Email,
         idLang: json.IdLan,
+        isAdmin: json.IsAdmin,
+        AdminId: json.IdChurch,
+        ChurchName: json.ChurchName,
+        AdminType: json.AdminType,
       },
     };
   } catch {
@@ -41,6 +46,7 @@ async function login(email: string, password: string): Promise<LoginResponse> {
 
 async function logout(): Promise<void> {
   // Más adelante notificaremos al servidor.
+  await SessionStorage.remove();
 }
 
 export const AuthService = {
