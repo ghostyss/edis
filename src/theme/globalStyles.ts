@@ -275,4 +275,66 @@ export const createGlobalStyles = (theme: AppTheme) =>
     },
     headerMenuItemIcon: { marginRight: theme.spacing.md },
     headerMenuItemText: { ...theme.typography.body, color: theme.colors.text },
+    /* ---------- Language Selector ---------- */
+
+    languageSelectorContainer: {
+      position: "absolute",
+      top: 20,
+      right: 20,
+      zIndex: 100,
+    },
+
+    languageSelector: {
+      minWidth: 100,
+      flexDirection: "row",
+      alignItems: "center",
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.success,
+      borderRadius: theme.radius.xl,
+      backgroundColor: theme.colors.background,
+    },
+
+    languageSelectorText: {
+      ...theme.typography.body,
+      color: theme.colors.success,
+      marginLeft: 8,
+      fontSize: 12,
+    },
+
+    languageSelectorOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+    },
+
+    languageSelectorMenu: {
+      position: "absolute",
+      top: 60,
+      right: 20,
+      minWidth: 180,
+      backgroundColor: theme.colors.background,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      borderRadius: theme.radius.sm,
+      ...theme.shadows.card,
+    },
+
+    languageSelectorItem: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: theme.spacing.md,
+      paddingHorizontal: theme.spacing.md,
+    },
+
+    languageSelectorItemText: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+    },
+
+    languageSelectorItemActive: {
+      color: theme.colors.primary,
+      fontWeight: "700",
+    },
   });
