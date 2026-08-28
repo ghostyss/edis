@@ -209,6 +209,13 @@ export const createGlobalStyles = (theme: AppTheme) =>
       marginTop: theme.spacing.md,
     },
 
+    headerTitleLogin: {
+      ...theme.typography.title,
+      color: theme.colors.text,
+      marginTop: theme.spacing.md,
+      backgroundColor: "silver",
+    },
+
     headerSubtitle: {
       ...theme.typography.body,
       color: theme.colors.text,

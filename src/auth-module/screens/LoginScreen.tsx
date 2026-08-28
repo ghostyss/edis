@@ -21,7 +21,7 @@ import { API } from "../../config/api";
 
 export default function LoginScreen() {
   const { t } = useTranslation();
-
+  //console.log(t("DSH-135"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -133,7 +133,16 @@ export default function LoginScreen() {
           resizeMode="contain"
         />
       </View>
-
+      <View>
+        <Text style={appStyles.headerTitleLogin}>
+          {t("DSH-135").replace("{nameuser}!", "") || "Login"}
+        </Text>
+        {t("MNU-21") && (
+          <Text style={appStyles.headerSubtitle}>
+            {t("MNU-21") || "Email..."}
+          </Text>
+        )}
+      </View>
       <View style={appStyles.card}>
         <Text style={appStyles.title1}>{t("MSJ-103") || "Cargando..."}</Text>
 
