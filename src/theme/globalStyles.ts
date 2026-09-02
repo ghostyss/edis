@@ -93,6 +93,18 @@ export const createGlobalStyles = (theme: AppTheme) =>
       borderColor: theme.colors.border,
       ...theme.shadows.card,
     },
+    cardLogin: {
+      width: "90%",
+      marginLeft: "1%",
+      marginRight: "1%",
+      maxWidth: 500,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.lg,
+      padding: theme.spacing.lg,
+      borderLeftWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: theme.colors.border,
+    },
 
     /* ---------- Dividers ---------- */
 
@@ -139,6 +151,12 @@ export const createGlobalStyles = (theme: AppTheme) =>
       marginBottom: 12,
       textAlign: "center",
     },
+    TextForgot: {
+      color: theme.colors.highlight,
+      marginBottom: 20,
+      marginTop: -5,
+      textAlign: "right",
+    },
     input: {
       backgroundColor: "#f9fafb",
       borderWidth: 1,
@@ -146,6 +164,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
       padding: 12,
       borderRadius: theme.radius.sm,
       marginBottom: 12,
+      flex: 1,
       fontFamily: theme.typography.inputLabel.fontFamily,
       fontSize: theme.typography.inputLabel.fontSize,
     },
@@ -166,6 +185,13 @@ export const createGlobalStyles = (theme: AppTheme) =>
       fontFamily: theme.typography.inputLabel.fontFamily,
       fontSize: theme.typography.inputLabel.fontSize,
     },
+    inputMail: {
+      flex: 1,
+      padding: 12,
+      paddingLeft: 45,
+      fontFamily: theme.typography.inputLabel.fontFamily,
+      fontSize: theme.typography.inputLabel.fontSize,
+    },
 
     viewPassButton: {
       position: "absolute",
@@ -173,6 +199,15 @@ export const createGlobalStyles = (theme: AppTheme) =>
       height: "100%",
       justifyContent: "center",
       alignItems: "center",
+    },
+    iconmail: {
+      position: "absolute",
+      left: 12,
+      top: 12,
+      height: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+      color: "#9ca3af",
     },
     /* ---------- Header ---------- */
 
@@ -213,7 +248,6 @@ export const createGlobalStyles = (theme: AppTheme) =>
       ...theme.typography.title,
       color: theme.colors.text,
       marginTop: theme.spacing.md,
-      backgroundColor: "silver",
     },
 
     headerSubtitle: {

@@ -17,9 +17,12 @@ import { useAppTheme } from "../../hooks/useAppTheme";
 import { AuthService } from "../../services/AuthService";
 import { useAuthContext } from "../../context/AuthContext";
 import { useLanguageContext } from "../../context/LanguageContext";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/AppNavigator";
 import { API } from "../../config/api";
+type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }: Props) {
   const { t } = useTranslation();
   //console.log(t("DSH-135"));
   const [email, setEmail] = useState("");
@@ -133,34 +136,34 @@ export default function LoginScreen() {
           resizeMode="contain"
         />
       </View>
-      <View>
+      <View style={appStyles.cardLogin}>
         <Text style={appStyles.headerTitleLogin}>
-          {t("DSH-135").replace("{nameuser}!", "") || "Login"}
+          {t("DSH-135").replace("{nameuser} !", "") || "Welcome back"}
         </Text>
-        {t("MNU-21") && (
-          <Text style={appStyles.headerSubtitle}>
-            {t("MNU-21") || "Email..."}
-          </Text>
-        )}
-      </View>
-      <View style={appStyles.card}>
-        <Text style={appStyles.title1}>{t("MSJ-103") || "Cargando..."}</Text>
-
+        <Text style={appStyles.headerSubtitle}>
+          {t("MNU-212", {
+            defaultValue:
+              "Sign in to continue growing in Christ and making disciples together",
+          })}
+        </Text>
+        <Text>{"\n"}</Text>
         {error ? <Text style={appStyles.TextError}>{error}</Text> : null}
+        <Text>{t("MNU-21", { defaultValue: "Email Address" })}</Text>
+        <View style={appStyles.inputPassConteiner}>
+          <Feather style={appStyles.iconmail} name="mail" size={20} />
 
-        <TextInput
-          style={appStyles.input}
-          placeholder={t("MNU-21") || "Email..."}
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-
+          <TextInput
+            style={appStyles.inputMail}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+        </View>
+        <Text>{t("MNU-29", { defaultValue: "Password" })}</Text>
         <View style={appStyles.inputPassConteiner}>
           <TextInput
             style={appStyles.inputPass}
-            placeholder={t("MNU-29") || "Password..."}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={ocultarPassword}
@@ -178,7 +181,13 @@ export default function LoginScreen() {
             />
           </TouchableOpacity>
         </View>
-
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPass")}>
+          <Text style={appStyles.TextForgot}>
+            {t("MNU-71", {
+              defaultValue: "Forgot password?",
+            })}
+          </Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={appStyles.button}
           onPress={handleLogin}

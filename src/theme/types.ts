@@ -54,6 +54,7 @@ export interface ThemeRadius {
 
 export interface ThemeShadows {
   card: ViewStyle;
+  cardLog: ViewStyle;
 }
 
 export interface AppTheme {
