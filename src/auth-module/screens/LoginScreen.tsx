@@ -68,6 +68,29 @@ export default function LoginScreen({ navigation }: Props) {
       setLoading(false);
     }
   };
+  const handleCode = async () => {
+    if (!email) {
+      setError(t("MNU-ForAdd", { defaultValue: "Please Set Email" }));
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const response = await AuthService.GetCode(email, "login");
+      if (response.code === 200) {
+        navigation.navigate("CodePass", {
+          email: email,
+        });
+      } else {
+        setError(response.msj || "Incorrect credentials");
+      }
+    } catch (err) {
+      setError("Server connection error");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const selectedLanguage = languages.find(
     (item) => item.id === currentLanguage,
@@ -141,14 +164,16 @@ export default function LoginScreen({ navigation }: Props) {
           {t("DSH-135").replace("{nameuser} !", "") || "Welcome back"}
         </Text>
         <Text style={appStyles.headerSubtitle}>
-          {t("MNU-212", {
+          {t("MNU-Foradd", {
             defaultValue:
               "Sign in to continue growing in Christ and making disciples together",
           })}
         </Text>
         <Text>{"\n"}</Text>
         {error ? <Text style={appStyles.TextError}>{error}</Text> : null}
-        <Text>{t("MNU-21", { defaultValue: "Email Address" })}</Text>
+        <Text style={appStyles.textLogin}>
+          {t("MNU-21", { defaultValue: "Email Address" })}
+        </Text>
         <View style={appStyles.inputPassConteiner}>
           <Feather style={appStyles.iconmail} name="mail" size={20} />
 
@@ -160,7 +185,9 @@ export default function LoginScreen({ navigation }: Props) {
             keyboardType="email-address"
           />
         </View>
-        <Text>{t("MNU-29", { defaultValue: "Password" })}</Text>
+        <Text style={appStyles.textLogin}>
+          {t("MNU-29", { defaultValue: "Password" })}
+        </Text>
         <View style={appStyles.inputPassConteiner}>
           <TextInput
             style={appStyles.inputPass}
@@ -196,9 +223,76 @@ export default function LoginScreen({ navigation }: Props) {
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={appStyles.buttonText}>{t("MSJ-103") || "Login"}</Text>
+            <Text style={appStyles.buttonText}>
+              {t("MNU-ForAdd", {
+                defaultValue: "Sign In",
+              })}
+            </Text>
           )}
         </TouchableOpacity>
+        <View style={appStyles.dividerContainer}>
+          <View style={appStyles.dividerLine} />
+
+          <Text style={appStyles.dividerText}>or</Text>
+
+          <View style={appStyles.dividerLine} />
+        </View>
+        <TouchableOpacity
+          style={appStyles.buttonB}
+          onPress={handleCode}
+          disabled={loading}
+        >
+          <View style={appStyles.mailCheckIcon}>
+            <Feather name="mail" size={24} color={colors.text} />
+
+            <View style={appStyles.mailCheckBadge}>
+              <Feather name="check" size={8} color="#fff" />
+            </View>
+          </View>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={appStyles.buttonTextB}>
+              {t("MNU-ForAdd", {
+                defaultValue: "Email me a one-time code",
+              })}
+            </Text>
+          )}
+        </TouchableOpacity>
+        <View style={appStyles.textCenterContainer}>
+          <Text style={appStyles.textCenter}>
+            {t("MNU-ForAdd", {
+              defaultValue: "We'll send a six-digit code to your email address",
+            })}
+          </Text>
+        </View>
+      </View>
+      <View style={appStyles.textCenterContainer}>
+        <Text style={appStyles.textCenter}>
+          {t("MNU-ForAdd", {
+            defaultValue: "New to Disciple Maker?",
+          })}
+        </Text>
+      </View>
+      <View style={appStyles.textCenterContainer2}>
+        <Text style={appStyles.textCenter2}>
+          {t("MNU-ForAdd", {
+            defaultValue: "Learn how to get started",
+          })}
+        </Text>
+      </View>
+      <View style={appStyles.textCenterContainer3}>
+        <Text style={appStyles.textCenter2}>
+          {t("MNU-ForAdd", {
+            defaultValue: "Privacy",
+          })}
+        </Text>
+        <Text style={appStyles.textCenter2}>|</Text>
+        <Text style={appStyles.textCenter2}>
+          {t("MNU-ForAdd", {
+            defaultValue: "Terms",
+          })}
+        </Text>
       </View>
     </View>
   );

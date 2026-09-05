@@ -11,7 +11,8 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import type { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { useAppTheme } from "../../hooks/useAppTheme";
@@ -27,8 +28,10 @@ export default function ForgotPassScreen() {
   const navigation = useNavigation<NavigationProp>();
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
-  const [email, setEmail] = useState("");
+
   const { styles: appStyles, colors } = useAppTheme();
+  const route = useRoute<RouteProp<RootStackParamList, "CodePassUpdate">>();
+  const { email } = route.params;
   const handleCode = async () => {
     setLoading(true);
     try {
@@ -63,7 +66,7 @@ export default function ForgotPassScreen() {
         </View>
         <Text style={appStyles.headerTitleLogin2}>
           {t("MNU-ForAdd", {
-            defaultValue: "Reset your password",
+            defaultValue: "Reset your password update",
           })}
         </Text>
 
@@ -88,7 +91,6 @@ export default function ForgotPassScreen() {
           <TextInput
             style={appStyles.inputMail}
             value={email}
-            onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address"
           />

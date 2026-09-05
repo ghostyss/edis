@@ -11,6 +11,9 @@ export interface ThemeColors {
   success: string;
   border: string;
   textError: string;
+  buttontext: string;
+  BorderButton: string;
+  secundary: string;
 }
 
 export interface ThemeTypography {
@@ -24,6 +27,7 @@ export interface ThemeTypography {
 
   button: TextStyle;
   inputLabel: TextStyle;
+  Label12: TextStyle;
 }
 
 export interface ThemeSpacing {

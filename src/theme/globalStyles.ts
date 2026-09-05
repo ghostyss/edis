@@ -81,6 +81,21 @@ export const createGlobalStyles = (theme: AppTheme) =>
       ...theme.typography.body,
       color: theme.colors.text,
     },
+    text2: {
+      ...theme.typography.inputLabel,
+      color: theme.colors.text,
+    },
+    text12: {
+      ...theme.typography.Label12,
+      color: theme.colors.text,
+      paddingLeft: theme.spacing.sm,
+    },
+
+    textLogin: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      paddingLeft: "3%",
+    },
     /* ---------- Cards ---------- */
 
     card: {
@@ -103,6 +118,8 @@ export const createGlobalStyles = (theme: AppTheme) =>
       padding: theme.spacing.lg,
       borderLeftWidth: 1,
       borderBottomWidth: 1,
+      borderRightWidth: 1,
+      borderTopWidth: 1,
       borderColor: theme.colors.border,
     },
 
@@ -123,6 +140,17 @@ export const createGlobalStyles = (theme: AppTheme) =>
       justifyContent: "center",
       alignItems: "center",
     },
+    buttonB: {
+      backgroundColor: theme.colors.buttontext,
+      paddingVertical: theme.spacing.lg,
+      paddingHorizontal: theme.spacing.xxl,
+      borderRadius: theme.radius.md,
+      justifyContent: "center",
+      alignItems: "center",
+      borderColor: theme.colors.BorderButton,
+      borderWidth: 1,
+      flexDirection: "row",
+    },
 
     buttonDisabled: {
       opacity: 0.6,
@@ -130,13 +158,16 @@ export const createGlobalStyles = (theme: AppTheme) =>
 
     buttonText: {
       ...theme.typography.button,
+      color: theme.colors.buttontext,
+    },
+    buttonTextB: {
+      ...theme.typography.button,
       color: theme.colors.text,
     },
     /*------Others------ */
     LogoLogin: {
       width: "100%",
-      height: 150,
-      marginBottom: 14,
+      height: 120,
       justifyContent: "center",
       alignItems: "center",
       maxWidth: 400,
@@ -248,6 +279,20 @@ export const createGlobalStyles = (theme: AppTheme) =>
       ...theme.typography.title,
       color: theme.colors.text,
       marginTop: theme.spacing.md,
+      paddingLeft: "3%",
+    },
+    headerTitleLoginB: {
+      ...theme.typography.heading,
+      color: theme.colors.text,
+      marginTop: theme.spacing.md,
+      paddingLeft: "3%",
+    },
+    headerTitleLogin2: {
+      ...theme.typography.title,
+      color: theme.colors.text,
+      marginTop: theme.spacing.md,
+      paddingLeft: "3%",
+      textAlign: "center",
     },
 
     headerSubtitle: {
@@ -255,6 +300,15 @@ export const createGlobalStyles = (theme: AppTheme) =>
       color: theme.colors.text,
       opacity: 0.75,
       marginTop: theme.spacing.xs,
+      paddingLeft: "3%",
+    },
+    headerSubtitle2: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      opacity: 0.75,
+      marginTop: theme.spacing.xs,
+      paddingLeft: "3%",
+      textAlign: "center",
     },
     /* ---------- Icons ---------- */
 
@@ -377,5 +431,173 @@ export const createGlobalStyles = (theme: AppTheme) =>
     languageSelectorItemActive: {
       color: theme.colors.primary,
       fontWeight: "700",
+    },
+    dividerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      marginTop: theme.spacing.md,
+      marginBottom: theme.spacing.md,
+    },
+    textCenterContainer: {
+      alignItems: "center",
+      width: "100%",
+      marginTop: theme.spacing.md,
+      marginBottom: theme.spacing.xs,
+    },
+    textCenterContainer2: {
+      alignItems: "center",
+      width: "100%",
+      marginTop: theme.spacing.xs,
+      marginBottom: theme.spacing.md,
+    },
+    textCenterContainer3: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+      marginTop: theme.spacing.md,
+      marginBottom: theme.spacing.xs,
+    },
+    textCenterContainer4: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginHorizontal: theme.spacing.xl,
+      marginTop: theme.spacing.md,
+      marginBottom: theme.spacing.xs,
+      paddingHorizontal: theme.spacing.xl,
+    },
+
+    dividerLine: {
+      flex: 1,
+      height: 1,
+      backgroundColor: theme.colors.border,
+    },
+    textCenter: {
+      ...theme.typography.inputLabel,
+      color: theme.colors.text,
+      marginHorizontal: theme.spacing.md,
+      textAlign: "center",
+    },
+    textCenter2: {
+      ...theme.typography.body,
+      color: theme.colors.highlight,
+      marginHorizontal: theme.spacing.md,
+      textAlign: "center",
+    },
+    dividerText: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      marginHorizontal: theme.spacing.md,
+    },
+    mailCheckIcon: {
+      position: "relative",
+      width: 24,
+      height: 24,
+      justifyContent: "center",
+      alignItems: "center",
+      marginRight: 10,
+    },
+    forgotIcon: {
+      position: "relative",
+      width: 80,
+      height: 80,
+      justifyContent: "center",
+      alignItems: "center",
+      left: "38%",
+    },
+    secureBadge: {
+      position: "absolute",
+      right: -2,
+      bottom: -2,
+      width: 38,
+      height: 39,
+      borderRadius: 6,
+      backgroundColor: theme.colors.background,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    mailCheckBadge: {
+      position: "absolute",
+      right: -2,
+      bottom: -2,
+      width: 11,
+      height: 11,
+      borderRadius: 6,
+      backgroundColor: theme.colors.primary,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    CheckSecure: {
+      position: "absolute",
+      left: 14,
+      top: 8,
+      width: 15,
+      height: 15,
+    },
+    codeInputContainer: {
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginVertical: theme.spacing.lg,
+    },
+
+    codeInput: {
+      flex: 1,
+      height: 64,
+      marginHorizontal: 4,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      borderRadius: theme.radius.sm,
+      backgroundColor: theme.colors.background,
+      color: theme.colors.text,
+      fontSize: 28,
+      fontWeight: "700",
+      textAlign: "center",
+    },
+    resendContainer: {
+      width: "100%",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginTop: theme.spacing.sm,
+      marginBottom: theme.spacing.lg,
+    },
+
+    resendRight: {
+      flex: 1,
+      alignItems: "flex-end",
+      paddingRight: theme.spacing.md,
+    },
+
+    resendLeft: {
+      flex: 2,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+    },
+
+    resendText: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      textAlign: "left",
+    },
+
+    resendTimer: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      marginRight: theme.spacing.xs,
+    },
+
+    resendButton: {
+      ...theme.typography.body,
+      color: theme.colors.primary,
+      fontWeight: "700",
+    },
+
+    resendButtonDisabled: {
+      color: theme.colors.accent,
     },
   });
