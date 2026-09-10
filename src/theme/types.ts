@@ -28,6 +28,7 @@ export interface ThemeTypography {
   button: TextStyle;
   inputLabel: TextStyle;
   Label12: TextStyle;
+  bodybold: TextStyle;
 }
 
 export interface ThemeSpacing {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Modal, ScrollView, Text } from "react-native";
+import { View, TouchableOpacity, Modal, ScrollView } from "react-native";
 
 import { useTranslation } from "react-i18next";
 
@@ -9,9 +9,6 @@ import { useAuthContext } from "../../context/AuthContext";
 
 import AppHeader from "../../components/layout/AppHeader/AppHeader";
 import AppFooter from "../../components/layout/AppFooter/AppFooter";
-//const DEFAULT_DISCIPLE = require("../../../assets/images/disciple.png");
-//const DEFAULT_TEACHER = require("../../../assets/images/dmaker.png");
-//const DEFAULT_COMMUNITY = require("../../../assets/images/community.png");
 
 export default function DashboardScreen() {
   const { styles: appStyles } = useAppTheme();
@@ -88,9 +85,6 @@ export default function DashboardScreen() {
               showsVerticalScrollIndicator={false}
             >
               {/* elementos del menú */}
-              <View style={appStyles.cardLogin}>
-                <Text>Test</Text>
-              </View>
             </ScrollView>
           </View>
         </View>

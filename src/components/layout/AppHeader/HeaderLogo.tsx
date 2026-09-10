@@ -12,7 +12,7 @@ import { AssetRepository } from "../../../assets-module/repository/AssetReposito
 
 import { AssetType } from "../../../assets-module/types/Asset";
 
-const DEFAULT_LOGO = require("../../../assets/logos/Logo_Default.png");
+const DEFAULT_LOGO = require("../../../assets/logos/mobilelogo.png");
 
 export default function HeaderLogo() {
   const { styles: appStyles } = useAppTheme();
@@ -28,7 +28,7 @@ export default function HeaderLogo() {
   }, [currentLanguage, isOnline]);
   //console.log(currentLanguage, isOnline);
   async function loadLogo() {
-    try {
+    /*try {
       const asset = await AssetRepository.getImage(
         {
           type: AssetType.LOGO,
@@ -50,7 +50,8 @@ export default function HeaderLogo() {
       console.error("HEADER LOGO:", error);
 
       setLogo(DEFAULT_LOGO);
-    }
+    }*/
+    setLogo(DEFAULT_LOGO);
   }
 
   return (

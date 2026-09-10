@@ -19,7 +19,7 @@ export type RootStackParamList = {
     email: string;
   };
   PassUpdate: {
-    token: string;
+    email: string;
   };
   Dashboard: undefined;
 };
@@ -30,31 +30,9 @@ interface Props {
   isAuthenticated: boolean;
 }
 
-const decodeBase64 = (value: string): string => {
-  try {
-    return atob(value);
-  } catch {
-    return value;
-  }
-};
-
-const linking = {
-  prefixes: ["edis://", "https://e-disciple.com", "https://www.e-disciple.com"],
-  config: {
-    screens: {
-      PassUpdate: {
-        path: "reset-password",
-        parse: {
-          token: (token: string) => decodeBase64(token),
-        },
-      },
-    },
-  },
-};
-
 export default function AppNavigator({ isAuthenticated }: Props) {
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
@@ -67,14 +45,11 @@ export default function AppNavigator({ isAuthenticated }: Props) {
             <Stack.Screen name="Login" component={LoginScreen} />
 
             <Stack.Screen name="ForgotPass" component={ForgotPassScreen} />
-
             <Stack.Screen name="CodePass" component={CodePassScreen} />
-
             <Stack.Screen
               name="CodePassUpdate"
               component={CodePassScreenUpdate}
             />
-
             <Stack.Screen name="PassUpdate" component={PassScreenUpdate} />
           </>
         )}

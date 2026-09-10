@@ -56,10 +56,10 @@ export default function AppHeader({
     <>
       <View style={appStyles.header}>
         <View style={appStyles.headerRow}>
-          <HeaderMenuButton onPress={handleMenuPress} />
-
           <HeaderLogo />
-
+          <View>
+            <Text style={appStyles.headerSubtitle}>{title}</Text>
+          </View>
           <View style={appStyles.headerActions}>
             <HeaderNotificationsButton
               count={notifications}
@@ -69,16 +69,6 @@ export default function AppHeader({
             <HeaderCartButton count={cart} onPress={onCartPress} />
           </View>
         </View>
-
-        {(title || subtitle) && (
-          <View>
-            {title && <Text style={appStyles.headerTitle}>{title}</Text>}
-
-            {subtitle && (
-              <Text style={appStyles.headerSubtitle}>{subtitle}</Text>
-            )}
-          </View>
-        )}
       </View>
 
       <HeaderMenu

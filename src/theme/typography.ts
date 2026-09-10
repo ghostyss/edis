@@ -34,6 +34,10 @@ export const typography: ThemeTypography = {
     fontFamily: Fonts.sansRegular,
     fontSize: 16,
   },
+  bodybold: {
+    fontFamily: Fonts.sansBold,
+    fontSize: 18,
+  },
 
   button: {
     fontFamily: Fonts.sansSemiBold,

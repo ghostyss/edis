@@ -182,6 +182,11 @@ export const createGlobalStyles = (theme: AppTheme) =>
       marginBottom: 12,
       textAlign: "center",
     },
+    TextSuccess: {
+      color: theme.colors.success,
+      marginBottom: 12,
+      textAlign: "center",
+    },
     TextForgot: {
       color: theme.colors.highlight,
       marginBottom: 20,
@@ -265,7 +270,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
       color: theme.colors.primary,
     },
     headerLogoImg: {
-      width: 150,
+      width: "15%",
       height: "100%",
     },
 
@@ -296,8 +301,8 @@ export const createGlobalStyles = (theme: AppTheme) =>
     },
 
     headerSubtitle: {
-      ...theme.typography.body,
-      color: theme.colors.text,
+      ...theme.typography.bodybold,
+      color: theme.colors.primary,
       opacity: 0.75,
       marginTop: theme.spacing.xs,
       paddingLeft: "3%",
@@ -600,4 +605,83 @@ export const createGlobalStyles = (theme: AppTheme) =>
     resendButtonDisabled: {
       color: theme.colors.accent,
     },
+    passwordRequirement: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      marginTop: 6,
+    },
+
+    passwordRequirementText: {
+      flex: 1,
+      marginLeft: 8,
+      fontSize: 14,
+    },
+    /*Footer */
+    footer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-around",
+      minHeight: 68,
+      paddingVertical: 8,
+      paddingLeft: theme.spacing.lg,
+      paddingRight: theme.spacing.lg,
+    },
+
+    footerTab: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingTop: theme.spacing.md,
+    },
+
+    footerIcon: {
+      marginBottom: 3,
+    },
+
+    footerIconActive: {
+      marginBottom: 3,
+      color: theme.colors.highlight,
+    },
+
+    footerLabel: {
+      fontSize: 12,
+    },
+
+    footerLabelActive: {
+      fontSize: 12,
+      fontWeight: "600",
+      color: theme.colors.highlight,
+    },
+    footerTabActive: {
+      borderTopWidth: 2,
+      borderTopColor: theme.colors.secundary,
+    },
+    /* */
+    /**menu */
+    moreMenuOverlay: {
+      flex: 1,
+      flexDirection: "row",
+    },
+
+    moreMenuBackdrop: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: "rgba(0, 0, 0, 0.55)",
+    },
+
+    moreMenu: {
+      minWidth: "85%",
+      backgroundColor: theme.colors.background,
+      elevation: 10,
+      shadowOffset: {
+        width: 2,
+        height: 0,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 6,
+    },
+    moreMenuContent: {
+      flexGrow: 1,
+      paddingVertical: 16,
+    },
+    /** */
   });

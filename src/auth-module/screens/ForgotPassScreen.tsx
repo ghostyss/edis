@@ -27,15 +27,24 @@ export default function ForgotPassScreen() {
   const navigation = useNavigation<NavigationProp>();
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
+  const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const { styles: appStyles, colors } = useAppTheme();
   const handleCode = async () => {
+    if (!email) {
+      setError(t("MNU-22") || "Please Fill al fields");
+      return;
+    }
     setLoading(true);
+    setError("");
     try {
-      const response = await AuthService.GetCode(email, "update");
+      const response = await AuthService.SendLink(email);
       console.log(response);
       if (response.code === 200) {
-        navigation.navigate("CodePassUpdate", { email });
+        //navigation.navigate("CodePassUpdate", { email });
+        setError(response.msj || "Please check your email for the reset link.");
+      } else {
+        setError(response.msj || "Incorrect credentials");
       }
     } catch (err) {
       console.error(err);
@@ -79,6 +88,7 @@ export default function ForgotPassScreen() {
           })}
         </Text>
         <Text></Text>
+        {error ? <Text style={appStyles.TextError}>{error}</Text> : null}
         <Text style={appStyles.textLogin}>
           {t("MNU-21", { defaultValue: "Email Address" })}
         </Text>
