@@ -24,6 +24,10 @@ export const typography: ThemeTypography = {
     fontFamily: Fonts.sansBold,
     fontSize: 28,
   },
+  subtitle: {
+    fontFamily: Fonts.sansBold,
+    fontSize: 24,
+  },
 
   heading: {
     fontFamily: Fonts.sansSemiBold,

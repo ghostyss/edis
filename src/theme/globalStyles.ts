@@ -108,6 +108,18 @@ export const createGlobalStyles = (theme: AppTheme) =>
       borderColor: theme.colors.border,
       ...theme.shadows.card,
     },
+    cardMenu: {
+      //width: "100%",
+      maxWidth: 500,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.lg,
+      padding: theme.spacing.md,
+      margin: theme.spacing.md,
+      borderWidth: 1,
+      borderColor: theme.colors.success,
+      ...theme.shadows.card,
+      flexDirection: "row",
+    },
     cardLogin: {
       width: "90%",
       marginLeft: "1%",
@@ -165,6 +177,78 @@ export const createGlobalStyles = (theme: AppTheme) =>
       color: theme.colors.text,
     },
     /*------Others------ */
+    HeaderMenuA: {
+      width: "100%",
+      height: 120,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.lg,
+      padding: theme.spacing.md,
+      borderWidth: 0,
+      borderColor: theme.colors.border,
+      flexDirection: "row",
+    },
+    HeaderMenuB: {
+      //width: "100%",
+      height: 80,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.lg,
+      padding: theme.spacing.md,
+      borderWidth: 1,
+      borderColor: theme.colors.success,
+      marginLeft: theme.spacing.md,
+      marginRight: theme.spacing.md,
+      flexDirection: "row",
+    },
+    TouchableOpacitySwitch: {},
+    HeaderMenuC: {
+      //width: "100%",
+      height: 30,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.lg,
+      //padding: theme.spacing.xs,
+      borderWidth: 0,
+      borderColor: theme.colors.success,
+      marginLeft: theme.spacing.md,
+      marginRight: theme.spacing.md,
+      flexDirection: "row",
+    },
+    HeaderMenuD: {
+      //width: "100%",
+      height: 60,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.lg,
+      //padding: theme.spacing.xs,
+      borderWidth: 0,
+      borderColor: theme.colors.success,
+      marginLeft: theme.spacing.md,
+      marginRight: theme.spacing.md,
+      flexDirection: "row",
+    },
+    LogoUser: {
+      justifyContent: "center",
+      alignItems: "center",
+      flex: 1,
+    },
+    LogoComm: {
+      justifyContent: "center",
+      alignItems: "center",
+      flex: 1,
+    },
+    ImageUser: {
+      width: "100%",
+      borderRadius: 100,
+      flex: 1,
+    },
+    HeaderTextMenu: {
+      width: "75%",
+      paddingLeft: theme.spacing.md,
+      justifyContent: "center",
+    },
+    HeaderTextMenu2: {
+      width: "85%",
+      paddingLeft: theme.spacing.md,
+      justifyContent: "center",
+    },
     LogoLogin: {
       width: "100%",
       height: 120,
@@ -172,6 +256,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
       alignItems: "center",
       maxWidth: 400,
     },
+
     logoImage: {
       width: "90%",
       height: "100%",
@@ -279,7 +364,43 @@ export const createGlobalStyles = (theme: AppTheme) =>
       color: theme.colors.text,
       marginTop: theme.spacing.md,
     },
-
+    MenuTitle: {
+      ...theme.typography.subtitle,
+      color: theme.colors.text,
+      marginTop: theme.spacing.md,
+    },
+    MenuSubTitle: {
+      ...theme.typography.bodybold,
+      color: theme.colors.text,
+      //marginTop: theme.spacing.md,
+    },
+    MenuSubTitle2: {
+      ...theme.typography.bodybold,
+      color: theme.colors.text,
+      flex: 1,
+      //width: "80%",
+    },
+    MenuSubTitle3: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      flex: 1,
+      //width: "80%",
+    },
+    MenuText: {
+      ...theme.typography.bodybold,
+      //color: theme.colors.text,
+      //marginTop: theme.spacing.md,
+    },
+    MenuText2: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+      //marginTop: theme.spacing.md,
+    },
+    MenuText3: {
+      ...theme.typography.body,
+      color: theme.colors.success,
+      //marginTop: theme.spacing.md,
+    },
     headerTitleLogin: {
       ...theme.typography.title,
       color: theme.colors.text,
@@ -362,7 +483,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
       minWidth: 240,
       backgroundColor: theme.colors.background,
       borderRadius: theme.radius.md,
-      borderWidth: 1,
+      borderWidth: 0,
       borderColor: theme.colors.border,
       ...theme.shadows.card,
       paddingVertical: theme.spacing.xs,
@@ -534,6 +655,25 @@ export const createGlobalStyles = (theme: AppTheme) =>
       justifyContent: "center",
       alignItems: "center",
     },
+    CheckCenter: {
+      position: "absolute",
+      right: 0,
+      width: 21,
+      height: 21,
+      borderRadius: 50,
+      borderWidth: 2,
+      borderColor: theme.colors.success,
+      //backgroundColor: theme.colors.success,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    CheckCenterLeft: {
+      width: 30,
+      height: 30,
+      justifyContent: "center",
+      alignItems: "center",
+      marginRight: theme.spacing.xs,
+    },
     CheckSecure: {
       position: "absolute",
       left: 14,
@@ -678,10 +818,63 @@ export const createGlobalStyles = (theme: AppTheme) =>
       },
       shadowOpacity: 0.25,
       shadowRadius: 6,
+      paddingTop: theme.spacing.lg,
     },
     moreMenuContent: {
       flexGrow: 1,
       paddingVertical: 16,
     },
     /** */
+    moreMenuContent: {
+      paddingVertical: 16,
+    },
+
+    moreMenuItem: {
+      flexDirection: "row",
+      alignItems: "center",
+      minHeight: 52,
+      paddingHorizontal: 16,
+    },
+
+    moreMenuItemIcon: {
+      width: 40,
+      alignItems: "flex-start",
+      justifyContent: "center",
+    },
+
+    moreMenuIcon: {
+      color: theme.colors.text,
+    },
+
+    moreMenuItemTextContainer: {
+      flex: 1,
+      justifyContent: "center",
+    },
+
+    moreMenuItemText: {
+      fontSize: 15,
+      color: theme.colors.text,
+    },
+
+    moreMenuItemBadgeContainer: {
+      width: 40,
+      alignItems: "flex-end",
+      justifyContent: "center",
+    },
+
+    moreMenuBadge: {
+      minWidth: 22,
+      height: 22,
+      borderRadius: 11,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingHorizontal: 5,
+      backgroundColor: theme.colors.success,
+    },
+
+    moreMenuBadgeText: {
+      fontSize: 12,
+      fontWeight: "600",
+      color: theme.colors.background,
+    },
   });
