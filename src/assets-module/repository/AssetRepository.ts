@@ -35,7 +35,7 @@ async function getImage(
   // Solicitar recurso al servidor
 
   const server = await AssetService.requestAsset(request);
-
+  console.log(server);
   //console.log("ASSET SERVER:", server);
 
   // Descargar archivo físico

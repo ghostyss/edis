@@ -30,7 +30,8 @@ export default function DashboardScreen() {
   const { isOnline } = useNetworkContext();
 
   const { user } = useAuthContext();
-  console.log(user);
+  const { logout } = useAuthContext();
+  //console.log(user);
   /**/
 
   const notificationsCount = 3;
@@ -61,7 +62,7 @@ export default function DashboardScreen() {
   }
 
   function onSignOutPress() {
-    console.log("Sign Out");
+    //console.log("Sign Out");
   }
   /* */
   function onHomePress() {
@@ -414,7 +415,7 @@ export default function DashboardScreen() {
               <TouchableOpacity
                 style={appStyles.moreMenuItem}
                 activeOpacity={0.7}
-                onPress={onSignOutPress}
+                onPress={logout}
               >
                 <View style={appStyles.moreMenuItemIcon}>
                   <Feather

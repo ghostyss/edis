@@ -20,6 +20,9 @@ import { useLanguageContext } from "../../context/LanguageContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/AppNavigator";
 import { API } from "../../config/api";
+import { AssetRepository } from "../../assets-module/repository/AssetRepository";
+import { AssetType } from "../../assets-module/types/Asset";
+import { useNetworkContext } from "../../context/NetworkContext";
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
 export default function LoginScreen({ navigation }: Props) {
@@ -41,7 +44,7 @@ export default function LoginScreen({ navigation }: Props) {
 
   const { isLoading, languages, currentLanguage, loadLanguage } =
     useLanguageContext();
-
+  const { isOnline } = useNetworkContext();
   const handleLogin = async () => {
     if (!email || !password) {
       setError(t("MNU-22") + " or " + t("MNU-30") || "Please Fill al fields");
@@ -57,6 +60,16 @@ export default function LoginScreen({ navigation }: Props) {
       const response = await AuthService.login(email, encryptedPassword);
 
       if (response.code === 200) {
+        /*avatar*/
+        const asset = await AssetRepository.getImage(
+          {
+            type: AssetType.AVATAR,
+            id: response.session.userId,
+          },
+          true,
+        );
+        //console.log(asset);
+        /* */
         await login(response.session!);
       } else {
         setError(response.msj || "Incorrect credentials");

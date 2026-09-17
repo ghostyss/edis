@@ -7,7 +7,7 @@ export default function Loading() {
     <View style={styles.container}>
       <Image
         source={{
-          uri: "./loadingapp1.png",
+          uri: "loadingapp1.png",
         }}
         style={styles.image}
         //resizeMode="cover"

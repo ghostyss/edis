@@ -14,7 +14,7 @@ async function requestAsset(
       id: request.id,
     },
   });
-
+  console.log(json);
   if (json.Code !== 200) {
     //throw new Error(json.Msj ?? "No fue posible obtener el recurso.");
     return {
