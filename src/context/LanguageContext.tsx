@@ -42,9 +42,10 @@ export function LanguageProvider({ children }: Props) {
   const [languages, setLanguages] = useState<LanguageItem[]>([]);
 
   async function loadLanguage(idLang: number) {
-    setIsLoading(true);
+    //setIsLoading(true);
 
     try {
+      //console.log(isOnline);
       const result = await LanguageRepository.load(idLang, isOnline);
       //console.log(result);
       i18n.addResourceBundle(
@@ -60,6 +61,8 @@ export function LanguageProvider({ children }: Props) {
       setCurrentLanguage(idLang);
 
       setLanguages(result.languages);
+    } catch (err) {
+      //console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -125,7 +128,7 @@ export function LanguageProvider({ children }: Props) {
       refreshLanguage,
       initializeLanguage,
     }),
-    [t, isLoading, currentLanguage, languages],
+    [t, isLoading, currentLanguage, languages, isOnline],
   );
 
   return (

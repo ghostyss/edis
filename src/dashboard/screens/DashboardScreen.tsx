@@ -17,6 +17,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import AppHeader from "../../components/layout/AppHeader/AppHeader";
 import AppFooter from "../../components/layout/AppFooter/AppFooter";
 import { Feather } from "@expo/vector-icons";
+import Avatar from "./Avatar";
 const DEFAULT_DISCIPLE = require("../../assets/images/disciple.png");
 const DEFAULT_TEACHER = require("../../assets/images/dmaker.png");
 const DEFAULT_COMMUNITY = require("../../assets/images/community.png");
@@ -180,11 +181,7 @@ export default function DashboardScreen() {
               {/* elementos del menú */}
               <View style={appStyles.HeaderMenuA}>
                 <View style={appStyles.LogoUser}>
-                  <Image
-                    source={DEFAULT_TEACHER}
-                    style={appStyles.ImageUser}
-                    resizeMode="contain"
-                  />
+                  <Avatar Id={user?.userId} Type={user?.AdminType} />
                 </View>
                 <View style={appStyles.HeaderTextMenu}>
                   <Text style={appStyles.MenuTitle}>

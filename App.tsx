@@ -28,8 +28,12 @@ function AppContent() {
   const { isLoading, initializeLanguage } = useLanguageContext();
 
   useEffect(() => {
+    if (isChecking) {
+      return;
+    }
+
     initializeLanguage();
-  }, []);
+  }, [isChecking]);
 
   if (isChecking) {
     return <Loading />;

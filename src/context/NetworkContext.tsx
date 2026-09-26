@@ -31,17 +31,46 @@ export function NetworkProvider({ children }: Props) {
   const [connectionType, setConnectionType] = useState("unknown");
 
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state: NetInfoState) => {
-      setIsOnline(
-        state.isConnected === true && state.isInternetReachable !== false,
-      );
+    let isMounted = true;
+
+    const updateNetworkState = (state: NetInfoState) => {
+      if (!isMounted) {
+        return;
+      }
+
+      const online =
+        state.isConnected === true && state.isInternetReachable !== false;
+
+      /*console.debug("[Network]", {
+        type: state.type,
+        isConnected: state.isConnected,
+        isInternetReachable: state.isInternetReachable,
+        isOnline: online,
+      });*/
+
+      setIsOnline(online);
 
       setConnectionType(state.type);
 
       setIsChecking(false);
-    });
+    };
 
-    return unsubscribe;
+    const unsubscribe = NetInfo.addEventListener(updateNetworkState);
+
+    NetInfo.fetch()
+      .then(updateNetworkState)
+      .catch(() => {
+        if (isMounted) {
+          setIsOnline(false);
+          setConnectionType("unknown");
+          setIsChecking(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, []);
 
   const value = useMemo(

@@ -59,15 +59,15 @@ export default function LoginScreen({ navigation }: Props) {
 
       const response = await AuthService.login(email, encryptedPassword);
 
-      if (response.code === 200) {
+      if (response.code === 200 && response.session) {
         /*avatar*/
-        const asset = await AssetRepository.getImage(
+        /*const asset = await AssetRepository.getImage(
           {
             type: AssetType.AVATAR,
             id: response.session.userId,
           },
           true,
-        );
+        );*/
         //console.log(asset);
         /* */
         await login(response.session!);
