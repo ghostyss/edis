@@ -16,6 +16,7 @@ import { useAuthContext } from "../../context/AuthContext";
 
 import AppHeader from "../../components/layout/AppHeader/AppHeader";
 import AppFooter from "../../components/layout/AppFooter/AppFooter";
+import DashboardHome from "../../components/dashboard/DashboardHome";
 import { Feather } from "@expo/vector-icons";
 import Avatar from "./Avatar";
 const DEFAULT_DISCIPLE = require("../../assets/images/disciple.png");
@@ -35,7 +36,7 @@ export default function DashboardScreen() {
   //console.log(user);
   /**/
 
-  const notificationsCount = 3;
+  const notificationsCount = 2;
   const invitationsCount = 2;
 
   function onNotificationsPress() {
@@ -145,13 +146,19 @@ export default function DashboardScreen() {
       <AppHeader
         /*title={`${t("MSJ-500")}, ${user?.name ?? ""}`}*/
         title={headerTitle}
-        notifications={3}
+        notifications={notificationsCount}
         cart={2}
       />
 
-      <View style={appStyles.container}>{/* Aquí irá el DashboardHome */}</View>
+      <View style={appStyles.container}>
+        <ScrollView
+          contentContainerStyle={appStyles.dashboardContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {activeTab === "home" && <DashboardHome />}
+        </ScrollView>
+      </View>
 
-      {/* Aquí irá el AppBottomTabs */}
       <AppFooter
         activeTab={activeTab}
         onHomePress={onHomePress}
@@ -181,7 +188,11 @@ export default function DashboardScreen() {
               {/* elementos del menú */}
               <View style={appStyles.HeaderMenuA}>
                 <View style={appStyles.LogoUser}>
-                  <Avatar Id={user?.userId} Type={user?.AdminType} />
+                  <Avatar
+                    Id={user?.userId}
+                    Type={user?.AdminType}
+                    imageStyle={appStyles.ImageUser}
+                  />
                 </View>
                 <View style={appStyles.HeaderTextMenu}>
                   <Text style={appStyles.MenuTitle}>
@@ -200,10 +211,10 @@ export default function DashboardScreen() {
 
               <View style={appStyles.HeaderMenuB}>
                 <View style={appStyles.LogoComm}>
-                  <Image
-                    source={DEFAULT_DISCIPLE}
-                    style={appStyles.ImageUser}
-                    resizeMode="contain"
+                  <Avatar
+                    Id={user?.userId}
+                    Type={user?.AdminType}
+                    imageStyle={appStyles.ImageUser}
                   />
                 </View>
                 <View style={appStyles.HeaderTextMenu2}>
@@ -244,10 +255,10 @@ export default function DashboardScreen() {
               </View>
               <View style={appStyles.HeaderMenuB}>
                 <View style={appStyles.LogoComm}>
-                  <Image
-                    source={DEFAULT_COMMUNITY}
-                    style={appStyles.ImageUser}
-                    resizeMode="contain"
+                  <Avatar
+                    Id={user?.AdminId}
+                    Type="Church"
+                    imageStyle={appStyles.ImageUser}
                   />
                 </View>
                 <View style={appStyles.HeaderTextMenu2}>

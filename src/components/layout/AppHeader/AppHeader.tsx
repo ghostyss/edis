@@ -10,6 +10,7 @@ import HeaderLogo from "./HeaderLogo";
 import HeaderMenu from "./HeaderMenu";
 import HeaderNotificationsButton from "./HeaderNotificationsButton";
 import HeaderCartButton from "./HeaderCartButton";
+import Avatar from "../../../dashboard/screens/Avatar";
 
 interface Props {
   title?: string;
@@ -34,7 +35,7 @@ export default function AppHeader({
 }: Props) {
   const { t } = useTranslation();
   const { styles: appStyles } = useAppTheme();
-  const { logout } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const [menuVisible, setMenuVisible] = useState(false);
 
   function handleMenuPress() {
@@ -56,17 +57,30 @@ export default function AppHeader({
     <>
       <View style={appStyles.header}>
         <View style={appStyles.headerRow}>
-          <HeaderLogo />
-          <View>
-            <Text style={appStyles.headerSubtitle}>{title}</Text>
+          <View style={appStyles.headerLeft}>
+            <HeaderLogo />
           </View>
-          <View style={appStyles.headerActions}>
-            <HeaderNotificationsButton
-              count={notifications}
-              onPress={onNotificationPress}
-            />
 
-            <HeaderCartButton count={cart} onPress={onCartPress} />
+          <View style={appStyles.headerCenter}>
+            <Text style={appStyles.headerSubtitle} numberOfLines={1}>
+              {title}
+            </Text>
+          </View>
+
+          <View style={appStyles.headerRight}>
+            <View style={appStyles.headerActions}>
+              <HeaderNotificationsButton
+                notifications={notifications}
+                onPress={onNotificationPress}
+              />
+            </View>
+            <View style={appStyles.LogoUserHeader}>
+              <Avatar
+                Id={user?.userId}
+                Type={user?.AdminType}
+                imageStyle={appStyles.ImageUserHeader}
+              />
+            </View>
           </View>
         </View>
       </View>

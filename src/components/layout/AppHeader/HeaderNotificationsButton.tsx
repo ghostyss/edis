@@ -17,7 +17,10 @@ export default function HeaderNotificationsButton({
   const { colors } = useAppTheme();
 
   return (
-    <HeaderIconButton badge={notifications} onPress={onPress}>
+    <HeaderIconButton
+      badge={notifications > 0 ? notifications : undefined}
+      onPress={onPress}
+    >
       <Feather name="bell" size={22} color={colors.text} />
     </HeaderIconButton>
   );

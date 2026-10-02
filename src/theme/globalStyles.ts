@@ -21,6 +21,10 @@ export const createGlobalStyles = (theme: AppTheme) =>
       padding: theme.spacing.md,
     },
 
+    dashboardContent: {
+      flexGrow: 1,
+    },
+
     row: {
       flexDirection: "row",
       alignItems: "center",
@@ -229,6 +233,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
       alignItems: "center",
       flex: 1,
     },
+    
     LogoComm: {
       justifyContent: "center",
       alignItems: "center",
@@ -238,6 +243,11 @@ export const createGlobalStyles = (theme: AppTheme) =>
       width: "100%",
       borderRadius: 100,
       flex: 1,
+    },
+    ImageUserHeader: {
+      width: 42,
+      height: 42,
+      borderRadius: 100,
     },
     HeaderTextMenu: {
       width: "75%",
@@ -337,26 +347,53 @@ export const createGlobalStyles = (theme: AppTheme) =>
       paddingTop: theme.spacing.md,
       paddingBottom: theme.spacing.md,
       backgroundColor: theme.colors.background,
+      borderBottomColor: theme.colors.border,
+      borderBottomWidth: 1,
     },
 
     headerRow: {
       flexDirection: "row",
-      justifyContent: "space-between",
       alignItems: "center",
+      minHeight: 42,
+    },
+    headerLeft: {
+      width: 108,
+      height: 42,
+      justifyContent: "center",
+      alignItems: "flex-start",
+    },
+    headerCenter: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingHorizontal: theme.spacing.xs,
+    },
+    headerRight: {
+      width: 108,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-end",
     },
 
     headerActions: {
       flexDirection: "row",
       alignItems: "center",
     },
-
+    LogoUserHeader: {
+      width: 42,
+      height: 42,
+      justifyContent: "center",
+      alignItems: "center",
+      marginLeft: theme.spacing.sm,
+      overflow: "hidden",
+    },
     headerLogo: {
       ...theme.typography.title,
       color: theme.colors.primary,
     },
     headerLogoImg: {
-      width: "15%",
-      height: "100%",
+      width: 64,
+      height: 42,
     },
 
     headerTitle: {
@@ -424,9 +461,9 @@ export const createGlobalStyles = (theme: AppTheme) =>
     headerSubtitle: {
       ...theme.typography.bodybold,
       color: theme.colors.primary,
+      fontWeight: "bold",
       opacity: 0.75,
-      marginTop: theme.spacing.xs,
-      paddingLeft: "3%",
+      textAlign: "center",
     },
     headerSubtitle2: {
       ...theme.typography.body,
@@ -460,7 +497,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
 
       borderRadius: theme.radius.pill,
 
-      backgroundColor: theme.colors.highlight,
+      backgroundColor: theme.colors.textError,
 
       justifyContent: "center",
       alignItems: "center",
@@ -825,9 +862,6 @@ export const createGlobalStyles = (theme: AppTheme) =>
       paddingVertical: 16,
     },
     /** */
-    moreMenuContent: {
-      paddingVertical: 16,
-    },
 
     moreMenuItem: {
       flexDirection: "row",

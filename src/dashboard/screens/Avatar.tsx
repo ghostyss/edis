@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Image, ImageSourcePropType } from "react-native";
-
-import { useAppTheme } from "../../hooks/useAppTheme";
+import {
+  Image,
+  ImageSourcePropType,
+  ImageStyle,
+  StyleProp,
+} from "react-native";
 
 import { useLanguageContext } from "../../context/LanguageContext";
 
@@ -15,9 +18,11 @@ import { AssetType } from "../../assets-module/types/Asset";
 const DEFAULT_DISCIPLE = require("../../assets/images/disciple.png");
 const DEFAULT_TEACHER = require("../../assets/images/dmaker.png");
 const DEFAULT_COMMUNITY = require("../../assets/images/community.png");
+
 interface Props {
   Id?: number;
   Type?: string;
+  imageStyle?: StyleProp<ImageStyle>;
 }
 function getDefaultImage(type?: string): ImageSourcePropType {
   switch (type) {
@@ -33,8 +38,7 @@ function getDefaultImage(type?: string): ImageSourcePropType {
       return DEFAULT_DISCIPLE;
   }
 }
-export default function Avatar({ Id, Type }: Props) {
-  const { styles: appStyles } = useAppTheme();
+export default function Avatar({ Id, Type, imageStyle }: Props) {
   const { currentLanguage } = useLanguageContext();
   const { isOnline } = useNetworkContext();
   const defaultLogo = getDefaultImage(Type);
@@ -76,7 +80,5 @@ export default function Avatar({ Id, Type }: Props) {
     };
   }, [Id, currentLanguage, defaultLogo, isOnline]);
 
-  return (
-    <Image source={logo} style={appStyles.ImageUser} resizeMode="contain" />
-  );
+  return <Image source={logo} style={imageStyle} resizeMode="contain" />;
 }
