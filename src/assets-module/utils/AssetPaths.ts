@@ -56,7 +56,7 @@ function getExtensionFromUrl(url: string): string {
 function getFileName(
   type: AssetType,
   id: number | string,
-  version: number,
+  version: string,
   extension: string,
 ) {
   return `${type}_${id}_v${version}.${extension}`;
@@ -65,7 +65,7 @@ function getFileName(
 function getFile(
   type: AssetType,
   id: number | string,
-  version: number,
+  version: string,
   extension: string,
 ): File {
   const folder = ensureFolder(type);

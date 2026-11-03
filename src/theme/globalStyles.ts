@@ -84,6 +84,7 @@ export const createGlobalStyles = (theme: AppTheme) =>
     text1: {
       ...theme.typography.body,
       color: theme.colors.text,
+      //backgroundColor: theme.colors.secundary,
     },
     text2: {
       ...theme.typography.inputLabel,
@@ -104,6 +105,16 @@ export const createGlobalStyles = (theme: AppTheme) =>
 
     card: {
       width: "90%",
+      maxWidth: 500,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.radius.lg,
+      padding: theme.spacing.md,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      ...theme.shadows.card,
+    },
+    CardView: {
+      width: "100%",
       maxWidth: 500,
       backgroundColor: theme.colors.background,
       borderRadius: theme.radius.lg,
@@ -391,6 +402,24 @@ export const createGlobalStyles = (theme: AppTheme) =>
       ...theme.typography.title,
       color: theme.colors.primary,
     },
+    NumberBox: {
+      ...theme.typography.title,
+      color: theme.colors.primary,
+      includeFontPadding: false,
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingLeft: 6,
+      marginTop: -2,
+    },
+    LetterBox: {
+      ...theme.typography.body,
+      color: theme.colors.primary,
+      includeFontPadding: false,
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingLeft: 6,
+      marginTop: -2,
+    },
     headerLogoImg: {
       width: 64,
       height: 42,
@@ -472,6 +501,13 @@ export const createGlobalStyles = (theme: AppTheme) =>
       marginTop: theme.spacing.xs,
       paddingLeft: "3%",
       textAlign: "center",
+    },
+    headerSubtitle3: {
+      ...theme.typography.bodybold,
+      color: theme.colors.primary,
+      fontWeight: "bold",
+      opacity: 0.75,
+      
     },
     /* ---------- Icons ---------- */
 
@@ -669,6 +705,15 @@ export const createGlobalStyles = (theme: AppTheme) =>
       justifyContent: "center",
       alignItems: "center",
       left: "38%",
+    },
+    Icon: {
+      width: "100%",
+    },
+    IconRound:{
+      width: "100%",
+      borderRadius: "100%",
+      backgroundColor: theme.colors.accent,
+      padding: 6,
     },
     secureBadge: {
       position: "absolute",
@@ -910,5 +955,39 @@ export const createGlobalStyles = (theme: AppTheme) =>
       fontSize: 12,
       fontWeight: "600",
       color: theme.colors.background,
+    },
+    /*cols row*/
+    rowcontent: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      width: "100%",
+    },
+    col1p: {
+      width: "25%",
+      padding: theme.spacing.xs,
+    },
+    col2p: {
+      width: "50%",
+      padding: theme.spacing.xs,
+    },
+    col3p: {
+      width: "75%",
+      padding: theme.spacing.xs,
+    },
+    col4p: {
+      width: "100%",
+      padding: theme.spacing.xs,
+    },
+    col1: {
+      width: "25%",
+    },
+    col2: {
+      width: "50%",
+    },
+    col3: {
+      width: "75%",
+    },
+    col4: {
+      width: "100%",
     },
   });

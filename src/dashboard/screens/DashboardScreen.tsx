@@ -90,7 +90,7 @@ export default function DashboardScreen() {
   }
 
   function onMorePress() {
-    setActiveTab("more");
+    //setActiveTab("more");
     //setHeaderTitle("More");
     setMoreMenuVisible(true);
   }
