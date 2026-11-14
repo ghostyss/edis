@@ -981,11 +981,17 @@ export const createGlobalStyles = (theme: AppTheme) =>
     col1: {
       width: "25%",
     },
+    col05: {
+      width: "10%",
+    },
     col2: {
       width: "50%",
     },
     col3: {
       width: "75%",
+    },
+    col305: {
+      width: "90%",
     },
     col4: {
       width: "100%",

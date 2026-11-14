@@ -9,6 +9,12 @@ import { AuthProvider, useAuthContext } from "./src/context/AuthContext";
 import Loading from "./src/components/Loading/Loading";
 
 import {
+  requestNotificationPermission,
+  getFCMToken,
+  listenForForegroundMessages,
+} from "./src/services/firebaseMessaging";
+
+import {
   LanguageProvider,
   useLanguageContext,
 } from "./src/context/LanguageContext";
@@ -21,6 +27,27 @@ import {
 import AppNavigator from "./src/navigation/AppNavigator";
 
 function AppContent() {
+  /* */
+  useEffect(() => {
+    async function initializeFirebaseMessaging() {
+      const permissionGranted = await requestNotificationPermission();
+
+      if (!permissionGranted) {
+        console.log("Permiso de notificaciones no concedido");
+        return;
+      }
+
+      const token = await getFCMToken();
+      //console.log("FCM Token:", token);
+    }
+
+    initializeFirebaseMessaging();
+
+    const unsubscribe = listenForForegroundMessages();
+
+    return unsubscribe;
+  }, []);
+  /* */
   const { loading, isAuthenticated } = useAuthContext();
 
   const { isChecking } = useNetworkContext();

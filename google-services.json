@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "614089907658",
+    "firebase_url": "https://e-disciple.firebaseio.com",
+    "project_id": "e-disciple",
+    "storage_bucket": "e-disciple.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614089907658:android:dc76ab1d79f1dcce680333",
+        "android_client_info": {
+          "package_name": "com.edis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbwawHVuKG29yMa_YRzCCYDPxO5L3_QFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614089907658:android:eccdd62bd9b0aae3680333",
+        "android_client_info": {
+          "package_name": "com.edisciple.maker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbwawHVuKG29yMa_YRzCCYDPxO5L3_QFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
