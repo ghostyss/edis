@@ -17,7 +17,11 @@ function emptyResponse(code: number, msj: string): GetData {
 async function getCachedData(key: string): Promise<GetData | null> {
   try {
     const value = await AsyncStorage.getItem(key);
-    return value ? (JSON.parse(value) as GetData) : null;
+    if (!value) return null;
+    const cachedData = JSON.parse(value) as GetData;
+    return { ...cachedData, data2: "" };
+    /*const value2 = value ? (JSON.parse(value) as GetData) : null;
+    return value2;*/
   } catch {
     return null;
   }

@@ -15,8 +15,11 @@ export default function DashboardHome() {
   const { user } = useAuthContext();
   const [containerSize, setContainerSize] = useState(0);
   const [data1, setData1] = useState<DashboardData>({});
+  let count = 0;
   //const [data2, setData2] = useState<Notif>({});
   const [data2, setData2] = useState<Record<string, unknown>>({});
+  const [data3, setData3] = useState("");
+  const resultado = data3.split('"');
   function handleLayout(event: LayoutChangeEvent) {
     const { width, height } = event.nativeEvent.layout;
     setContainerSize(Math.min(width, height));
@@ -42,6 +45,7 @@ export default function DashboardHome() {
         //console.log(parsedNotif);
         setData1(parsedData);
         setData2(parsedNotif);
+        setData3(response.data3);
 
         //console.log(parsedData.TotalGroups);
       } catch (error) {
@@ -125,9 +129,19 @@ export default function DashboardHome() {
         <View style={appStyles.col4p}>
           <View style={appStyles.CardView}>
             {Object.keys(data2).length === 0 ? (
-              <Text>nada de notificaciones</Text>
+              <Text>
+                {t("MNU-ForAdd", {
+                  defaultValue:
+                    "There are no notifications, or there is no internet connection.",
+                })}
+              </Text>
             ) : (
               Object.entries(data2).map(([key, value]) => {
+                count++;
+                let div = null;
+                if (count > 1) {
+                  div = <Divider />;
+                }
                 let parsedValue: unknown = value;
                 if (typeof value === "string") {
                   try {
@@ -137,35 +151,64 @@ export default function DashboardHome() {
                   }
                 }
                 return (
-                  <View key={key} style={appStyles.rowcontent}>
-                    <View style={appStyles.col05}>
-                      <Feather
-                        name="message-square"
-                        size={30}
-                        color={colors.success}
-                      />
+                  <React.Fragment key={key}>
+                    {div}
+                    <View style={appStyles.rowcontent}>
+                      <View style={appStyles.col05}>
+                        <Feather
+                          name="message-square"
+                          size={30}
+                          color={colors.success}
+                        />
+                      </View>
+                      <Text style={appStyles.col305}>
+                        {String(
+                          (parsedValue as Record<string, unknown>)?.Name ?? "",
+                        )}{" "}
+                        -{" "}
+                        {String(
+                          (parsedValue as Record<string, unknown>)
+                            ?.CourseName ?? "",
+                        )}
+                      </Text>
+                      <Text style={appStyles.col05}></Text>
+                      <Text style={appStyles.col305}>
+                        {String(
+                          (parsedValue as Record<string, unknown>)?.GroupName ??
+                            "",
+                        )}
+                      </Text>
                     </View>
-                    <Text style={appStyles.col305}>
-                      {String(
-                        (parsedValue as Record<string, unknown>)?.Name ?? "",
-                      )}{" "}
-                      -{" "}
-                      {String(
-                        (parsedValue as Record<string, unknown>)?.CourseName ??
-                          "",
-                      )}
-                    </Text>
-                    <Text style={appStyles.col05}></Text>
-                    <Text style={appStyles.col305}>
-                      {String(
-                        (parsedValue as Record<string, unknown>)?.GroupName ??
-                          "",
-                      )}
-                    </Text>
-                  </View>
+                  </React.Fragment>
                 );
               })
             )}
+          </View>
+        </View>
+      </View>
+      <Text></Text>
+      <Text style={appStyles.headerSubtitle3} numberOfLines={1}>
+        {t("DSH-ForAdd", {
+          defaultValue: "Countinue with your groups",
+        })}
+      </Text>
+      <View style={appStyles.rowcontent}>
+        <View style={appStyles.col4p}>
+          <View style={appStyles.CardView}></View>
+        </View>
+      </View>
+      <Text></Text>
+      <View style={appStyles.rowcontent}>
+        <View style={appStyles.col4p}>
+          <View style={appStyles.CardView}>
+            <Text style={appStyles.text1b}>
+              {resultado[2] != null
+                ? String(resultado[2]).trim().slice(1).trim()
+                : "1"}{" "}
+            </Text>
+            <Text style={appStyles.text1}>
+              {resultado[1] != null ? String(resultado[1]) : "1"}{" "}
+            </Text>
           </View>
         </View>
       </View>

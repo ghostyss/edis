@@ -86,6 +86,11 @@ export const createGlobalStyles = (theme: AppTheme) =>
       color: theme.colors.text,
       //backgroundColor: theme.colors.secundary,
     },
+    text1b: {
+      ...theme.typography.body,
+      color: theme.colors.secundary,
+      //backgroundColor: theme.colors.secundary,
+    },
     text2: {
       ...theme.typography.inputLabel,
       color: theme.colors.text,
