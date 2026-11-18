@@ -58,7 +58,7 @@ export default function DashboardHome() {
   }, []);
   return (
     <View>
-      <Text style={appStyles.headerTitle} numberOfLines={1}>
+      <Text style={appStyles.headerTitle} numberOfLines={2}>
         {t("DSH-135", {
           defaultValue: "Welcome Back {nameuser}",
         }).replace(/\{nameuser\}/g, user?.name ?? "")}
@@ -204,10 +204,11 @@ export default function DashboardHome() {
             <Text style={appStyles.text1b}>
               {resultado[2] != null
                 ? String(resultado[2]).trim().slice(1).trim()
-                : "1"}{" "}
+                : ""}
+              {""}
             </Text>
             <Text style={appStyles.text1}>
-              {resultado[1] != null ? String(resultado[1]) : "1"}{" "}
+              {resultado[1] != null ? String(resultado[1]) : ""}{" "}
             </Text>
           </View>
         </View>

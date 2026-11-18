@@ -17,6 +17,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import AppHeader from "../../components/layout/AppHeader/AppHeader";
 import AppFooter from "../../components/layout/AppFooter/AppFooter";
 import DashboardHome from "../../components/dashboard/DashboardHome";
+import PeopleHome from "../../components/people/PeopleHome";
 import { Feather } from "@expo/vector-icons";
 import Avatar from "./Avatar";
 const DEFAULT_DISCIPLE = require("../../assets/images/disciple.png");
@@ -156,6 +157,7 @@ export default function DashboardScreen() {
           showsVerticalScrollIndicator={false}
         >
           {activeTab === "home" && <DashboardHome />}
+          {activeTab === "people" && <PeopleHome />}
         </ScrollView>
       </View>
 

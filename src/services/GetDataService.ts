@@ -6,8 +6,8 @@ import { SessionStorage } from "./SessionStorage";
 
 const DASHBOARD_DATA_KEY = "GET_DATA_DASH1";
 
-function cacheKey(userId?: number): string {
-  return `${DASHBOARD_DATA_KEY}_${userId ?? "anonymous"}`;
+function cacheKey(userId?: number, action?: string): string {
+  return `${DASHBOARD_DATA_KEY}_${userId ?? "anonymous"}_${action ?? "default"}`;
 }
 
 function emptyResponse(code: number, msj: string): GetData {
@@ -32,7 +32,7 @@ async function GetDataDashh1(): Promise<GetData> {
 
   try {
     const session = await SessionStorage.get();
-    storageKey = cacheKey(session?.userId);
+    storageKey = cacheKey(session?.userId, "GetDataDash1");
 
     const network = await NetInfo.fetch();
     const isOnline =
@@ -61,6 +61,79 @@ async function GetDataDashh1(): Promise<GetData> {
       body: JSON.stringify({
         Id: Id,
         action: "GetDataDash1",
+      }),
+    });
+    //console.log(headers);
+    //const responseBody = await response.text();
+    //console.log("SaveFB response body:", responseBody);
+    const json = await response.json();
+    //console.log(json);
+    const result: GetData = {
+      code: json.Code,
+      msj: json.Msj,
+      data1: json.Data1,
+      data2: json.Data2,
+      data3: json.Data3,
+      data4: json.Data4,
+      data5: json.Data5,
+    };
+
+    if (json.Code !== 200) {
+      if (json.Code === 401) {
+        await SessionStorage.remove();
+      }
+      return result;
+    }
+
+    try {
+      await AsyncStorage.setItem(storageKey, JSON.stringify(result));
+    } catch {
+      // El resultado de red sigue siendo válido aunque el almacenamiento falle.
+    }
+
+    return result;
+  } catch {//console.log('aqui?');
+    return (
+      (await getCachedData(storageKey)) ??
+      emptyResponse(500, "It was not possible to connect to the server")
+    );
+  }
+}
+
+async function GetDisciples(): Promise<GetData> {
+  let storageKey = cacheKey();
+
+  try {
+    const session = await SessionStorage.get();
+    storageKey = cacheKey(session?.userId, "GetDisciples");
+
+    const network = await NetInfo.fetch();
+    const isOnline =
+      network.isConnected === true && network.isInternetReachable !== false;
+    //console.log(isOnline);
+    if (!isOnline) {
+      return (
+        (await getCachedData(storageKey)) ??
+        emptyResponse(503, "No internet connection and no saved data")
+      );
+    }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    let Id;
+    if (session?.token) {
+      headers.Authorization = `Bearer ${session.token}`;
+    }
+    if (session?.userId) {
+      Id = session.userId;
+    }
+    const response = await fetch(`${API.BASE_URL}`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        Id: Id,
+        action: "GetDisciples",
       }),
     });
     //console.log(headers);
@@ -211,8 +284,8 @@ async function logout(): Promise<void> {
   // Más adelante notificaremos al servidor.
   await SessionStorage.remove();
 }
-
 export const GetDataService = {
+  GetDisciples,
   GetDataDashh1,
   SaveFB,
   logout,
