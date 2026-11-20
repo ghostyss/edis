@@ -6,23 +6,48 @@ import {
   LayoutChangeEvent,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
+  Modal,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { useAuthContext } from "../../context/AuthContext";
+import { useLanguageContext } from "../../context/LanguageContext";
 import { GetDataService } from "../../services/GetDataService";
 import Avatar from "../../dashboard/screens/Avatar";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 type DashboardData = Record<string, unknown>;
 type Notif = Record<string, unknown>;
+//const ACCOUNT_TYPE_OPTIONS = ["Teacher", "Student", "Church"] as const;
+export const ACCOUNT_TYPE_OPTIONS = [
+  { key: "Basic", label: "Disciple" },
+  { key: "Profesional", label: "Disciple-Maker" },
+  /*{ key: "church", label: "Church" },*/
+] as const;
 
 export default function PeopleHome() {
   const { t } = useTranslation();
   const { styles: appStyles, colors } = useAppTheme();
   const { user } = useAuthContext();
+  const { languages } = useLanguageContext();
   const [containerSize, setContainerSize] = useState(0);
   const [search, setSearch] = useState("");
+  const [inviteFormVisible, setInviteFormVisible] = useState(false);
+  const [accountTypeOptionsVisible, setAccountTypeOptionsVisible] =
+    useState(false);
+  const [languageOptionsVisible, setLanguageOptionsVisible] = useState(false);
+  const [inviteForm, setInviteForm] = useState({
+    language: "",
+    accountType: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
   const [data1, setData1] = useState<DashboardData>({});
   const [loading, setLoading] = useState(false);
   let count = 0;
@@ -46,14 +71,14 @@ export default function PeopleHome() {
   );
   const handleGetData = async () => {
     const response = await GetDataService.GetDisciples();
-    console.log(response);
+    //console.log(response);
     if (response.code === 200) {
       try {
         const parsedData = JSON.parse(response.data1) as DashboardData;
         //console.log(parsedData);
         //const parsedNotif = JSON.parse(response.data2) as Notif;
         setData1(parsedData);
-        console.log(data1);
+        //console.log(data1);
         //setData2(parsedNotif);
         //setData3(response.data3);
       } catch (error) {
@@ -61,6 +86,64 @@ export default function PeopleHome() {
       }
     }
   };
+  const handleSubmitInvite = async () => {
+    const hasMissingFields = Object.values(inviteForm).some(
+      (value) => !value.trim(),
+    );
+
+    if (hasMissingFields) {
+      Alert.alert("Required fields", "Complete all fields before submitting.");
+      return;
+    }
+
+    const email = inviteForm.email.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      Alert.alert("Invalid email", "Enter a valid email address.");
+      return;
+    }
+
+    const inviteData = {
+      language: Number(inviteForm.language),
+      accountType: inviteForm.accountType,
+      firstName: inviteForm.firstName,
+      lastName: inviteForm.lastName,
+      email,
+    };
+
+    //console.log("Invitation data:", JSON.stringify(inviteData, null, 2));
+    setInviteFormVisible(false);
+    setLoading(true);
+    /**/
+    const response = await GetDataService.NewDisciple(
+      JSON.stringify(inviteData),
+    );
+    setLoading(false);
+    console.log(response);
+    if (response.code === 200) {
+      try {
+        /*const parsedData = JSON.parse(response.data2) as DashboardData;
+        setData1(parsedData);*/
+        console.log(data1);
+        Alert.alert(
+          "Success",
+          "Invitation send Succfessfully. Check email for the invitation link.",
+        );
+        if (response.msj === "200") {
+          handleGetData();
+        }
+      } catch (error) {
+        console.error("No se pudo leer response.data1 como JSON:", error);
+      }
+    } else {
+      Alert.alert(
+        "Error",
+        response.msj || "There was an error sending the invitation.",
+      );
+    }
+    /**/
+  };
+
   useEffect(() => {
     void handleGetData();
   }, []);
@@ -83,6 +166,10 @@ export default function PeopleHome() {
     return name.includes(searchTerm);
   });
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <View>
       <Text style={appStyles.headerTitle} numberOfLines={2}>
@@ -98,7 +185,7 @@ export default function PeopleHome() {
       <Text></Text>
       <TouchableOpacity
         style={appStyles.button}
-        //onPress={handleLogin}
+        onPress={() => setInviteFormVisible(true)}
         disabled={loading}
       >
         {loading ? (
@@ -117,6 +204,223 @@ export default function PeopleHome() {
           </Text>
         )}
       </TouchableOpacity>
+      <Modal
+        visible={inviteFormVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setInviteFormVisible(false)}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            padding: 20,
+          }}
+        >
+          <View
+            style={{
+              width: "100%",
+              maxWidth: 500,
+              maxHeight: "90%",
+              backgroundColor: colors.background,
+              borderRadius: 12,
+              padding: 20,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 16,
+              }}
+            >
+              <Text style={appStyles.headerTitle}>Invite new Disciple</Text>
+              <TouchableOpacity
+                onPress={() => setInviteFormVisible(false)}
+                accessibilityRole="button"
+                accessibilityLabel="Close invitation form"
+              >
+                <Feather name="x" size={24} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+            <ScrollView keyboardShouldPersistTaps="handled">
+              {(
+                [
+                  ["language", "Language"],
+                  ["accountType", "Account Type"],
+                  ["firstName", "First Name"],
+                  ["lastName", "Last Name"],
+                  ["email", "Email"],
+                ] as const
+              ).map(([key, label]) => (
+                <View key={key} style={{ marginBottom: 12 }}>
+                  <Text style={[appStyles.text2, { marginBottom: 4 }]}>
+                    {label} *
+                  </Text>
+                  {key === "language" ? (
+                    <>
+                      <TouchableOpacity
+                        style={{
+                          borderWidth: 1,
+                          borderColor: colors.border,
+                          borderRadius: 6,
+                          padding: 12,
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                        onPress={() =>
+                          setLanguageOptionsVisible((visible) => !visible)
+                        }
+                        accessibilityRole="button"
+                      >
+                        <Text
+                          style={{
+                            color: inviteForm.language
+                              ? colors.text
+                              : colors.secundary,
+                          }}
+                        >
+                          {languages.find(
+                            (language) =>
+                              String(language.id) === inviteForm.language,
+                          )?.name || "Select language *"}
+                        </Text>
+                        <Feather
+                          name={
+                            languageOptionsVisible
+                              ? "chevron-up"
+                              : "chevron-down"
+                          }
+                          size={18}
+                          color={colors.text}
+                        />
+                      </TouchableOpacity>
+                      {languageOptionsVisible &&
+                        languages.map((language) => (
+                          <TouchableOpacity
+                            key={language.id}
+                            style={{
+                              padding: 12,
+                              borderBottomWidth: 1,
+                              borderBottomColor: colors.border,
+                            }}
+                            onPress={() => {
+                              setInviteForm((current) => ({
+                                ...current,
+                                language: String(language.id),
+                              }));
+                              setLanguageOptionsVisible(false);
+                            }}
+                          >
+                            <Text style={{ color: colors.text }}>
+                              {language.name}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                    </>
+                  ) : key === "accountType" ? (
+                    <>
+                      <TouchableOpacity
+                        style={{
+                          borderWidth: 1,
+                          borderColor: colors.border,
+                          borderRadius: 6,
+                          padding: 12,
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                        onPress={() =>
+                          setAccountTypeOptionsVisible((visible) => !visible)
+                        }
+                        accessibilityRole="button"
+                      >
+                        <Text
+                          style={{
+                            color: inviteForm.accountType
+                              ? colors.text
+                              : colors.secundary,
+                          }}
+                        >
+                          {ACCOUNT_TYPE_OPTIONS.find(
+                            (option) => option.key === inviteForm.accountType,
+                          )?.label || "Select account type *"}
+                        </Text>
+                        <Feather
+                          name={
+                            accountTypeOptionsVisible
+                              ? "chevron-up"
+                              : "chevron-down"
+                          }
+                          size={18}
+                          color={colors.text}
+                        />
+                      </TouchableOpacity>
+                      {accountTypeOptionsVisible &&
+                        ACCOUNT_TYPE_OPTIONS.map((option) => (
+                          <TouchableOpacity
+                            key={option.key}
+                            style={{
+                              padding: 12,
+                              borderBottomWidth: 1,
+                              borderBottomColor: colors.border,
+                            }}
+                            onPress={() => {
+                              setInviteForm((current) => ({
+                                ...current,
+                                accountType: option.key,
+                              }));
+                              setAccountTypeOptionsVisible(false);
+                            }}
+                          >
+                            <Text style={{ color: colors.text }}>
+                              {option.label}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                    </>
+                  ) : (
+                    <TextInput
+                      style={{
+                        borderWidth: 1,
+                        borderColor: colors.border,
+                        borderRadius: 6,
+                        padding: 12,
+                        color: colors.text,
+                      }}
+                      value={inviteForm[key]}
+                      onChangeText={(value) =>
+                        setInviteForm((current) => ({
+                          ...current,
+                          [key]: value,
+                        }))
+                      }
+                      placeholder={`${label} *`}
+                      placeholderTextColor={colors.secundary}
+                      keyboardType={
+                        key === "email" ? "email-address" : "default"
+                      }
+                      autoCapitalize={key === "email" ? "none" : "words"}
+                    />
+                  )}
+                </View>
+              ))}
+              <TouchableOpacity
+                style={[appStyles.button, { marginTop: 8 }]}
+                onPress={handleSubmitInvite}
+                accessibilityRole="button"
+              >
+                <Text style={appStyles.buttonText}>Submit</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
       <Text></Text>
       <View style={appStyles.inputPassConteiner}>
         <Feather style={appStyles.iconmail} name="search" size={20} />
@@ -134,7 +438,7 @@ export default function PeopleHome() {
       <Text style={appStyles.text1} numberOfLines={1}>
         &nbsp;
         {t("DSH-ForAdd", {
-          defaultValue: "2 Disciples",
+          defaultValue: `${Object.keys(data1).length} Disciples`,
         })}
       </Text>
       <View style={appStyles.rowcontent} key="searcheable">

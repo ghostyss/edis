@@ -68,6 +68,7 @@ export default function DashboardHome() {
       </Text>
       <Text></Text>
       <Text style={appStyles.headerSubtitle3} numberOfLines={1}>
+        &nbsp;
         {t("DSH-ForAdd", {
           defaultValue: "Your Ministry",
         })}
@@ -121,6 +122,8 @@ export default function DashboardHome() {
       </View>
       <Text></Text>
       <Text style={appStyles.headerSubtitle3} numberOfLines={1}>
+        {" "}
+        &nbsp;
         {t("DSH-ForAdd", {
           defaultValue: "Needs your attention",
         })}
@@ -188,6 +191,7 @@ export default function DashboardHome() {
       </View>
       <Text></Text>
       <Text style={appStyles.headerSubtitle3} numberOfLines={1}>
+        &nbsp;
         {t("DSH-ForAdd", {
           defaultValue: "Countinue with your groups",
         })}

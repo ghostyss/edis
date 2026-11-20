@@ -100,6 +100,253 @@ async function GetDataDashh1(): Promise<GetData> {
   }
 }
 
+async function GetGroups(): Promise<GetData> {
+  let storageKey = cacheKey();
+
+  try {
+    const session = await SessionStorage.get();
+    storageKey = cacheKey(session?.userId, "GetGroups");
+
+    const network = await NetInfo.fetch();
+    const isOnline =
+      network.isConnected === true && network.isInternetReachable !== false;
+    //console.log(isOnline);
+    if (!isOnline) {
+      return (
+        (await getCachedData(storageKey)) ??
+        emptyResponse(503, "No internet connection and no saved data")
+      );
+    }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    let Id;
+    if (session?.token) {
+      headers.Authorization = `Bearer ${session.token}`;
+    }
+    if (session?.userId) {
+      Id = session.userId;
+    }
+    const response = await fetch(`${API.BASE_URL}`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        Id: Id,
+        action: "GetGroups",
+      }),
+    });
+    //console.log(headers);
+    //const responseBody = await response.text();
+    //console.log("Group response body:", responseBody);
+    const json = await response.json();
+    //console.log(json);
+    const result: GetData = {
+      code: json.Code,
+      msj: json.Msj,
+      data1: json.Data1,
+      data2: json.Data2,
+      data3: json.Data3,
+      data4: json.Data4,
+      data5: json.Data5,
+    };
+
+    if (json.Code !== 200) {
+      if (json.Code === 401) {
+        await SessionStorage.remove();
+      }
+      return result;
+    }
+
+    try {
+      await AsyncStorage.setItem(storageKey, JSON.stringify(result));
+    } catch {
+      // El resultado de red sigue siendo válido aunque el almacenamiento falle.
+    }
+
+    return result;
+  } catch {//console.log('aqui?');
+    return (
+      (await getCachedData(storageKey)) ??
+      emptyResponse(500, "It was not possible to connect to the server")
+    );
+  }
+}
+
+async function GetMaterial(IdMaterial: string): Promise<GetData> {
+  let storageKey = cacheKey();
+
+  try {
+    const session = await SessionStorage.get();
+    storageKey = cacheKey(session?.userId, "GetMaterial");
+
+    const network = await NetInfo.fetch();
+    const isOnline =
+      network.isConnected === true && network.isInternetReachable !== false;
+    //console.log(isOnline);
+    if (!isOnline) {
+      return (
+        (await getCachedData(storageKey)) ??
+        emptyResponse(503, "No internet connection and no saved data")
+      );
+    }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    let Id;
+    if (session?.token) {
+      headers.Authorization = `Bearer ${session.token}`;
+    }
+    if (session?.userId) {
+      Id = session.userId;
+    }
+    const response = await fetch(`${API.BASE_URL}`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        Id: Id,
+        IdMaterial: IdMaterial,
+        action: "GetMaterial",
+      }),
+    });
+    //console.log(headers);
+    const responseBody = await response.text();
+    //console.log("Material response body:", responseBody);
+    let json: any;
+    try {
+      json = JSON.parse(responseBody.replace(/^\uFEFF/, "").trim());
+    } catch (error) {
+      console.error("Material: el servidor no devolvió JSON válido:", error);
+      return {
+        code: response.status,
+        msj: responseBody || "El servidor devolvió una respuesta vacía",
+        data1: "",
+        data2: "",
+        data3: "",
+        data4: "",
+        data5: "",
+      };
+    }
+    const result: GetData = {
+      code: json.Code,
+      msj: json.Msj,
+      data1: json.Data1,
+      data2: json.Data2,
+      data3: json.Data3,
+      data4: json.Data4,
+      data5: json.Data5,
+    };
+
+    if (json.Code !== 200) {
+      if (json.Code === 401) {
+        await SessionStorage.remove();
+      }
+      return result;
+    }
+
+    try {
+      await AsyncStorage.setItem(storageKey, JSON.stringify(result));
+    } catch {
+      // El resultado de red sigue siendo válido aunque el almacenamiento falle.
+    }
+
+    return result;
+  } catch {//console.log('aqui?');
+    return (
+      (await getCachedData(storageKey)) ??
+      emptyResponse(500, "It was not possible to connect to the server")
+    );
+  }
+}
+
+async function GetCourse(IdCourse: number): Promise<GetData> {
+  let storageKey = cacheKey();
+
+  try {
+    const session = await SessionStorage.get();
+    storageKey = cacheKey(session?.userId, "GetCourse");
+
+    const network = await NetInfo.fetch();
+    const isOnline =
+      network.isConnected === true && network.isInternetReachable !== false;
+    //console.log(isOnline);
+    if (!isOnline) {
+      return (
+        (await getCachedData(storageKey)) ??
+        emptyResponse(503, "No internet connection and no saved data")
+      );
+    }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    let Id;
+    if (session?.token) {
+      headers.Authorization = `Bearer ${session.token}`;
+    }
+    if (session?.userId) {
+      Id = session.userId;
+    }
+    const response = await fetch(`${API.BASE_URL}`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        Id: Id,
+        IdCourse: IdCourse,
+        action: "GetCourse",
+      }),
+    });
+    //console.log(headers);
+    const responseBody = await response.text();
+    //console.log("Course response body:", responseBody);
+    let json: any;
+    try {
+      json = JSON.parse(responseBody.replace(/^\uFEFF/, "").trim());
+    } catch (error) {
+      console.error("Course: el servidor no devolvió JSON válido:", error);
+      return {
+        code: response.status,
+        msj: responseBody || "El servidor devolvió una respuesta vacía",
+        data1: "",
+        data2: "",
+        data3: "",
+        data4: "",
+        data5: "",
+      };
+    }
+    const result: GetData = {
+      code: json.Code,
+      msj: json.Msj,
+      data1: json.Data1,
+      data2: json.Data2,
+      data3: json.Data3,
+      data4: json.Data4,
+      data5: json.Data5,
+    };
+
+    if (json.Code !== 200) {
+      if (json.Code === 401) {
+        await SessionStorage.remove();
+      }
+      return result;
+    }
+
+    try {
+      await AsyncStorage.setItem(storageKey, JSON.stringify(result));
+    } catch {
+      // El resultado de red sigue siendo válido aunque el almacenamiento falle.
+    }
+
+    return result;
+  } catch {//console.log('aqui?');
+    return (
+      (await getCachedData(storageKey)) ??
+      emptyResponse(500, "It was not possible to connect to the server")
+    );
+  }
+}
+
 async function GetDisciples(): Promise<GetData> {
   let storageKey = cacheKey();
 
@@ -139,6 +386,79 @@ async function GetDisciples(): Promise<GetData> {
     //console.log(headers);
     //const responseBody = await response.text();
     //console.log("SaveFB response body:", responseBody);
+    const json = await response.json();
+    //console.log(json);
+    const result: GetData = {
+      code: json.Code,
+      msj: json.Msj,
+      data1: json.Data1,
+      data2: json.Data2,
+      data3: json.Data3,
+      data4: json.Data4,
+      data5: json.Data5,
+    };
+
+    if (json.Code !== 200) {
+      if (json.Code === 401) {
+        await SessionStorage.remove();
+      }
+      return result;
+    }
+
+    try {
+      await AsyncStorage.setItem(storageKey, JSON.stringify(result));
+    } catch {
+      // El resultado de red sigue siendo válido aunque el almacenamiento falle.
+    }
+
+    return result;
+  } catch {//console.log('aqui?');
+    return (
+      (await getCachedData(storageKey)) ??
+      emptyResponse(500, "It was not possible to connect to the server")
+    );
+  }
+}
+
+async function GetCourses(): Promise<GetData> {
+  let storageKey = cacheKey();
+
+  try {
+    const session = await SessionStorage.get();
+    storageKey = cacheKey(session?.userId, "GetCourses");
+
+    const network = await NetInfo.fetch();
+    const isOnline =
+      network.isConnected === true && network.isInternetReachable !== false;
+    //console.log(isOnline);
+    if (!isOnline) {
+      return (
+        (await getCachedData(storageKey)) ??
+        emptyResponse(503, "No internet connection and no saved data")
+      );
+    }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    let Id;
+    if (session?.token) {
+      headers.Authorization = `Bearer ${session.token}`;
+    }
+    if (session?.userId) {
+      Id = session.userId;
+    }
+    const response = await fetch(`${API.BASE_URL}`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        Id: Id,
+        action: "GetCourses",
+      }),
+    });
+    //console.log(headers);
+    const responseBody = await response.text();
+    //console.log("course response body:", responseBody);
     const json = await response.json();
     //console.log(json);
     const result: GetData = {
@@ -217,13 +537,13 @@ async function SaveFB(code: string): Promise<GetData> {
       }),
     });
     const responseBody = await response.text();
-    //console.log("SaveFB response body:", responseBody);
+    //console.log("New Disc response body:", responseBody);
 
     let json: any;
     try {
       json = JSON.parse(responseBody.replace(/^\uFEFF/, "").trim());
     } catch (error) {
-      console.error("SaveFB: el servidor no devolvió JSON válido:", error);
+      console.error("Save FB: el servidor no devolvió JSON válido:", error);
       return {
         code: response.status,
         msj: responseBody || "El servidor devolvió una respuesta vacía",
@@ -280,12 +600,121 @@ async function SaveFB(code: string): Promise<GetData> {
   }
 }
 
+async function NewDisciple(data: string): Promise<GetData> {
+  try {
+    const session = await SessionStorage.get();
+    const network = await NetInfo.fetch();
+    const isOnline =
+    network.isConnected === true && network.isInternetReachable !== false;
+    if (!isOnline) {
+      const result: GetData = {
+        code: 400,
+        msj: "It was not possible to connect to the server",
+        data1: '',
+        data2: '',
+        data3: '',
+        data4: '',
+        data5: '',
+      };
+      return result;
+    }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    let Id;
+    if (session?.token) {
+      headers.Authorization = `Bearer ${session.token}`;
+    }
+    if (session?.userId) {
+      Id = session.userId;
+    }
+    //console.log(Id);
+    const response = await fetch(`${API.BASE_URL}`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        Id: Id,
+        Data: data,
+        action: "NewDisciple",
+      }),
+    });
+    const responseBody = await response.text();
+    let reponseBody2 = responseBody.replace(/^\uFEFF/, "").trim();
+    console.log("New Disciple response body:", reponseBody2);
+
+    let json: any;
+    try {
+      json = JSON.parse(reponseBody2.replace(/^\uFEFF/, "").trim());
+    } catch (error) {
+      console.error("New Disciple: el servidor no devolvió JSON válido:", error);
+      return {
+        code: response.status,
+        msj: reponseBody2 || "El servidor devolvió una respuesta vacía",
+        data1: "",
+        data2: "",
+        data3: "",
+        data4: "",
+        data5: "",
+      };
+    }
+    const result: GetData = {
+      code: json.Code,
+      msj: json.Msj,
+      data1: json.Data1,
+      data2: json.Data2,
+      data3: json.Data3,
+      data4: json.Data4,
+      data5: json.Data5,
+    };
+
+    if (json.Code !== 200) {
+      if (json.Code === 401) {
+        await SessionStorage.remove();
+      }
+      return result;
+    }
+
+    try {
+      //await AsyncStorage.setItem(storageKey, JSON.stringify(result));
+    } catch {
+      // El resultado de red sigue siendo válido aunque el almacenamiento falle.
+    }
+
+    return result;
+  } catch (error) {
+    console.error("falló:", error);
+    const result: GetData = {
+      code: 501,
+      msj:
+        error instanceof Error
+          ? error.message
+          : "It was not possible to connect to the server",
+      data1: '',
+      data2: '',
+      data3: '',
+      data4: '',
+      data5: '',
+    };
+    return result;
+    /*return (
+      (await getCachedData(storageKey)) ??
+      emptyResponse(500, "It was not possible to connect to the server")
+    );*/
+  }
+}
+
 async function logout(): Promise<void> {
   // Más adelante notificaremos al servidor.
   await SessionStorage.remove();
 }
 export const GetDataService = {
   GetDisciples,
+  GetCourse,
+  GetGroups,
+  GetMaterial,
+  GetCourses,
+  NewDisciple,
   GetDataDashh1,
   SaveFB,
   logout,

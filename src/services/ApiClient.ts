@@ -38,6 +38,8 @@ async function post<T = any>({
         ...data,
       }),
     });
+    /*const responseBody = await response.text();
+    console.log("Group response body:", responseBody);*/
   } catch (error) {
     throw new Error("NETWORK_ERROR");
   }

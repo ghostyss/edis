@@ -265,6 +265,16 @@ export const createGlobalStyles = (theme: AppTheme) =>
       height: 42,
       borderRadius: 100,
     },
+    ImageBook: {
+      width: 60,
+      height: 70,      
+    },
+    ImageBookMaterial: {
+      width: '90%',
+      height: '90%',
+      marginLeft: '5%',
+      //paddingLeft: theme.spacing.md,
+    },
     HeaderTextMenu: {
       width: "75%",
       paddingLeft: theme.spacing.md,
@@ -401,6 +411,14 @@ export const createGlobalStyles = (theme: AppTheme) =>
       justifyContent: "center",
       alignItems: "center",
       marginLeft: theme.spacing.sm,
+      overflow: "hidden",
+    },
+    LogoBook: {
+      width: 60,
+      height: 70,
+      justifyContent: "center",
+      alignItems: "center",
+      //marginLeft: theme.spacing.sm,
       overflow: "hidden",
     },
     headerLogo: {

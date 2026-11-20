@@ -8,6 +8,7 @@ import CodePassScreen from "../auth-module/screens/CodePassScreen";
 import CodePassScreenUpdate from "../auth-module/screens/CodePassScreenUpdate";
 import PassScreenUpdate from "../auth-module/screens/UpdatePassScreen";
 import DashboardScreen from "../dashboard/screens/DashboardScreen";
+import Material from "../components/material/Material";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -22,6 +23,11 @@ export type RootStackParamList = {
     token: string;
   };
   Dashboard: undefined;
+  Material: {
+    courseId: number;
+    courseName: string;
+    chapters?: Array<{ id: string | number; name: string }>;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -61,7 +67,10 @@ export default function AppNavigator({ isAuthenticated }: Props) {
         }}
       >
         {isAuthenticated ? (
-          <Stack.Screen name="Dashboard" component={DashboardScreen} />
+          <>
+            <Stack.Screen name="Dashboard" component={DashboardScreen} />
+            <Stack.Screen name="Material" component={Material} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />

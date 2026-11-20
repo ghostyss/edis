@@ -18,8 +18,11 @@ import AppHeader from "../../components/layout/AppHeader/AppHeader";
 import AppFooter from "../../components/layout/AppFooter/AppFooter";
 import DashboardHome from "../../components/dashboard/DashboardHome";
 import PeopleHome from "../../components/people/PeopleHome";
+import GroupHome from "../../components/group/GroupHome";
+import StudyHome from "../../components/study/StudyHome";
 import { Feather } from "@expo/vector-icons";
 import Avatar from "./Avatar";
+
 const DEFAULT_DISCIPLE = require("../../assets/images/disciple.png");
 const DEFAULT_TEACHER = require("../../assets/images/dmaker.png");
 const DEFAULT_COMMUNITY = require("../../assets/images/community.png");
@@ -37,8 +40,8 @@ export default function DashboardScreen() {
   //console.log(user);
   /**/
 
-  const notificationsCount = 2;
-  const invitationsCount = 2;
+  const notificationsCount = 0;
+  const invitationsCount = 0;
 
   function onNotificationsPress() {
     console.log("Notifications");
@@ -71,13 +74,13 @@ export default function DashboardScreen() {
   function onHomePress() {
     setActiveTab("home");
     setHeaderTitle("Home");
-    console.log("h");
+    //console.log("h");
   }
 
   function onPeoplePress() {
     setActiveTab("people");
     setHeaderTitle("People");
-    console.log("p");
+    //console.log("p");
   }
 
   function onGroupsPress() {
@@ -158,6 +161,8 @@ export default function DashboardScreen() {
         >
           {activeTab === "home" && <DashboardHome />}
           {activeTab === "people" && <PeopleHome />}
+          {activeTab === "groups" && <GroupHome />}
+          {activeTab === "study" && <StudyHome />}
         </ScrollView>
       </View>
 
